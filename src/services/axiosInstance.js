@@ -30,9 +30,16 @@ const axiosInstance = axios.create({
 
 // Vue.http.options.crossOrigin = true
 
+let user = JSON.parse(localStorage.getItem('user'))
+
+// axios.defaults.headers.post['Authorization'] = `Bearer ${user}`
+axios.defaults.headers.post['Authorization'] = 'Bearer' + user
 axios.defaults.headers.common['Authorization'] = 'Bearer'
 axios.defaults.headers.common['Content-Type'] = 'application/json'
 axios.defaults.headers.common['X-CSRF-TOKEN'] = `${csrf}`
+axios.defaults.headers.common['Access-Control-Allow-Access-Control-Allow-Credentials'] = true
+
+
 
 
             // '': csrfTokeSet

@@ -12,6 +12,7 @@ import HeaderUser from "@/components/HeaderUser.vue";
 import HeroUser from "../components/HeroUser.vue";
 import Footer from "@/components/Footer.vue";
 import UserPost from "../pages/UserPost.vue";
+import authHeader from '@/services/auth-header';
 
 export default {
   name: "UserIndex-vue",
@@ -21,6 +22,10 @@ export default {
     HeroUser,
     Footer,
     UserPost,
+  },
+
+  created() {
+    return authHeader()
   },
 
   setup() {

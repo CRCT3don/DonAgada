@@ -17,7 +17,11 @@
       </div>
     </div>-->
 
-                             
+        <div v-if="deleteMessage" class="alert alert-success alert-dismissible fade show" role="alert">
+          A simple secondary alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
+          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+
       <article class="row my-3">
         <div class="col-md-10 m-auto">
           <div class="container">
@@ -81,23 +85,28 @@
                                   aria-label="Close"
                                 ></button> -->
                               </div>
-                                <div class="modal-body">
-                                  <p class="fw-bolder fst-italic accent">
-                                    Action cannot be undone!
-                                  </p>
-                                </div>
-                                <div class="modal-footer">
-                                  <button
-                                    type="button"
-                                    class="btn btn-sm btn-outline-danger shadow-none"
-                                    data-bs-dismiss="modal"
-                                  >
-                                    Cancel
-                                  </button>
-                                  <button type="button" class="btn bg-danger text-white shadow-none" @click.prevent="deleted">
-                                    Confirm
-                                  </button>
-                                </div>
+                              <div class="modal-body">
+                                <p class="fw-bolder fs-5 fst-italic accent">
+                                  Action cannot be undone!
+                                </p>
+                              </div>
+                              <div class="modal-footer">
+                                <button
+                                  type="button"
+                                  class="btn btn-sm btn-outline-danger shadow-none"
+                                  data-bs-dismiss="modal"
+                                >
+                                  Cancel
+                                </button>
+                                <button
+                                  data-bs-dismiss="modal"
+                                  type="button"
+                                  class="btn bg-danger text-white shadow-none"
+                                  @click.prevent="deleteEvent"
+                                >
+                                  Confirm
+                                </button>
+                              </div>
                             </div>
                           </div>
                         </div>
@@ -130,15 +139,28 @@
                           </div>
                         </div>
                         <div class="h-50">
-                          <p class="text-black font-14"><small>
-                            <i class="fa-solid fa-calendar-days"></i> Wed, 3 Aug
-                            - 3:00pm</small>
+                          <p class="text-black font-14">
+                            <small>
+                              <i class="fa-solid fa-calendar-days"></i> Wed, 3
+                              Aug - 3:00pm</small
+                            >
                           </p>
 
-                          <p class="text-black font-14 fw-bold"> <small>
-                            <i class="fa-solid fa-clock"></i> 1hr 45mins</small>
+                          <p class="text-black font-14 fw-bold">
+                            <small>
+                              <i class="fa-solid fa-clock"></i> 1hr
+                              45mins</small
+                            >
                           </p>
-                          <p class="text-black"><i class="fa-solid fa-location-dot"></i><small><em> sLocation addresss adress address address address </em></small> </p>
+                          <p class="text-black">
+                            <i class="fa-solid fa-location-dot"></i
+                            ><small
+                              ><em>
+                                sLocation addresss adress address address
+                                address
+                              </em></small
+                            >
+                          </p>
                         </div>
                       </div>
                     </div>
@@ -156,61 +178,49 @@
 </template>
 
 <script>
-import axios from "axios";
-import { onMounted, reactive } from "@vue/runtime-core";
 import CreateEventModal from "@/components/CreateEventModal.vue";
+import userService from "@/services/user.service";
 
 export default {
-    name: "BlogPost-vue",
-    data() {
-        return {
-            title: "",
-            description: "",
-            image: "",
-        };
+  name: "BlogPost-vue",
+  data() {
+    return {
+      deleteMessage: "",
+      eventDelete: false
+    };
+  },
+  components: { CreateEventModal },
+  computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
     },
-    setup() {
-        const blogPost = reactive({});
-        onMounted(() => {
-            const post = {
-                method: "GET",
-                url: "https://event-reservation-system.herokuapp.com/api",
-                headers: {},
-            };
-            axios
-                .request(post)
-                .then((response) => {
-                blogPost.details = response.data;
-                // console.log(blogPost.title)
-            })
-                .catch((error) => {
-                console.error(error);
-            });
-        });
-        const sample = () => {
-            console.log("yay!");
-        };
-        const deleted = () => {
-            const del = {
-                method: "DELETE",
-                url: "https://event-reservation-system.herokuapp.com/api/event/delete",
-                headers: {
-                    Mediatype: "applications/json"
-                },
-            };
-            axios.request(del)
-                .then((response) => {
-                console.log(response.data);
-                this.$router.replace("/userpost");
-            });
-        };
-        return {
-            blogPost,
-            sample,
-            deleted
-        };
+  },
+
+  mounted() {
+    userService.getMyEvents()
+    .then(
+      (response) => {
+        console.log(response);
+        // this.event_details = response.data
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  },
+
+  methods: {
+    deleteEvent() {
+      userService.deleteEvent(this.event_details.id).then(
+        (response) => {
+          this.deleteMessage = response.message;
+        },
+        (error) => {
+          this.deleteMessage = error.data;
+        }
+      );
     },
-    components: { CreateEventModal }
+  },
 };
 </script>
 

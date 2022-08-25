@@ -27,7 +27,7 @@ import axios from "axios";
       await axios
         .request(csrf)
         .then((response) => {
-          console.log(response.data.token)
+          // console.log(response.data.token)
           response.data.token = csrfTokenSet
         })
         .catch((error) => {

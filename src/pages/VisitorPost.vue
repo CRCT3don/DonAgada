@@ -66,42 +66,29 @@
 // import axios from "axios";
 // import { onMounted, reactive } from "@vue/runtime-core";
 
+import userService from '@/services/user.service';
+
 export default {
   name: "BlogPost-vue",
 
   data() {
     return {
-      title: "",
-      description: "",
-      image: "",
+      event_details: '',
     };
   },
 
-  // setup() {
-  //   const blogPost = reactive({});
+  mounted(){
+    userService.getAllEvents()
+    .then(response => {
+      console.log(response)
+      // this.event_details = response.data
+    }, 
+    error => {
+      console.log(error)
+    })
+  }
 
-  //   onMounted(() => {
-  //     const post = {
-  //       method: "GET",
-  //       url: "https://event-reservation-system.herokuapp.com/api",
-  //       headers: {}
-  //     };
 
-  //     axios
-  //       .request(post)
-  //       .then((response) => {
-  //         blogPost.details = response.data;
-  //         // console.log(blogPost.title)
-  //       })
-  //       .catch((error) => {
-  //         console.error(error);
-  //       });
-  //   });
-
-  //   return {
-  //     blogPost,
-  //   };
-  // },
 };
 </script>
 

@@ -42,7 +42,7 @@
                 type="text"
                 class="input-theme"
                 name="event_name"
-                v-model="user.event_name"
+                v-model="event_name"
               />
             </div>
             <div class="col-md-12 mb-3 m-auto">
@@ -51,11 +51,11 @@
               </label>
               <select
                 class="input-theme"
-                v-model="user.type"
+                v-model="type"
                 placeholder="Select Option..."
               >
-                <option>Free</option>
-                <option>Paid</option>
+                <option>free</option>
+                <option>paid</option>
               </select>
             </div>
             <!-- </div> -->
@@ -64,21 +64,13 @@
               <label for="date" class="gray-3 fs-6"
                 >Event Date <span class="text-danger">*</span></label
               >
-              <input
-                type="date"
-                v-model="user.event_date"
-                class="input-theme"
-              />
+              <input type="date" v-model="event_date" class="input-theme" />
             </div>
             <div class="col-md-12 mb-3 m-auto">
               <label for="time" class="gray-3 fs-6"
                 >Event Time <span class="text-danger">*</span></label
               >
-              <input
-                type="time"
-                v-model="user.start_time"
-                class="input-theme"
-              />
+              <input type="time" v-model="start_time" class="input-theme" />
             </div>
             <!-- </div> -->
             <div class="col-md-12 mb-3 m-auto">
@@ -87,7 +79,7 @@
               >
               <input
                 type="number"
-                v-model="user.maximum_seats"
+                v-model="maximum_seats"
                 class="input-theme"
               />
             </div>
@@ -106,7 +98,7 @@
               <input
                 type="text"
                 class="form-control input-theme"
-                v-model="user.location"
+                v-model="location"
               />
             </div>
           </form>
@@ -119,11 +111,16 @@
           </button>
           <button
             type="button"
-            class="button-theme" :disabled="loading"
-            @click.prevent="onCreateEvent"
+            class="button-theme"
+            :disabled="loading"
+            @click="onCreateEvent"
           >
-          <span v-show="loading" class="spinner-border spinner-border-sm mx-2"></span>
-           <span> CREATE EVENT </span>
+            <!-- data-bs-dismiss="modal" -->
+            <span
+              v-show="loading"
+              class="spinner-border spinner-border-sm mx-2"
+            ></span>
+            <span> CREATE EVENT </span>
           </button>
         </div>
       </div>
@@ -135,79 +132,65 @@
 
 <script>
 import CreateEventMixins from "@/mixins/CreateEventMixins";
-import User from "@/models/user";
-// import axiosInstance from "@/services/axiosInstance";
+// import User from "@/models/user";
+// import userService from '@/services/user.service';
+import axiosInstance from "@/services/axiosInstance";
+// import authHeader from "@/services/auth-header";
 
 export default {
   name: "EventModal-vue",
 
   data() {
     return {
-      user: new User("", "", "", "", "", ""),
+      // user: new User("", "", "", "", "", ""),
+        event_name: "",
+        type: "",
+        event_date: "",
+        start_time: "",
+        maximum_seats: "",
+        location: "",
       loading: false,
       message: "",
     };
   },
 
   methods: {
+
     onCreateEvent() {
+      console.log(this.event_name, this.type)
       this.loading = true;
-      if (
-        this.event_name &&
-        this.type &&
-        this.event_date &&
-        this.start_time &&
-        this.maximum_seats &&
-        this.location
-      ) {
-        this.$store.dispatch("auth/onCreateEvent", this.user)
-        .then(
-          () => {
-            this.$router.replace('/userpost')
-          },
-          (error) => {
-            this.loading = false;
-            this.message =
-              (error.message && error.message.response.data) ||
-              error.message ||
-              error.toString();
-          }
-        );
-      }
+      let user = JSON.parse(localStorage.getItem("user"));
+      console.log(user)
+
+      const options = {
+        method: "POST",
+        url: "/api/event/create",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user}`,
+        },
+        data: {
+          event_name: this.event_name,
+          type: this.type,
+          event_date: this.event_date,
+          start_time: this.start_time,
+          maximum_seats: this.maximum_seats,
+          location: this.location,
+        },
+      };
+
+      axiosInstance
+        .request(options)
+        .then((response) => {
+          console.log(response.data);
+          this.$router.replace("/userpost");
+        })
+        .catch((error) => {
+          console.error(error);
+          this.loading = false;
+        });
     },
   },
-  // methods:{
-  //   onCreateEvent(){
-  //     if(this.loggedIn){
-  //       this.$router.replace('/userpost')
-  //       const createEvent = {
-  //       method: "POST",
-  //       url: "/api/event/create",
-  //       headers: { "Media-Type": "application/json", Authorization: "Bearer" },
-  //       data: {
-  //         event_name: this.event_name,
-  //         type: this.type,
-  //         event_date: this.event_date,
-  //         start_time: this.start_time,
-  //         maximum_seats: this.maximum_seats,
-  //         location: this.location,
-  //       },
-  //     };
-
-  //     axiosInstance
-  //       .request(createEvent)
-  //       .then((response) => {
-  //         console.log(response.data);
-  //         this.$router.repplace("/userpost");
-  //       })
-  //       .catch((error) => {
-  //         console.log(error);
-  //       });
-  //     } else {
-  //       this.$router.replace('/login')
-  //     }
-  //   }
-  // },
 
   mixins: [CreateEventMixins],
 };
