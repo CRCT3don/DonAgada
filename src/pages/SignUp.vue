@@ -64,9 +64,9 @@
 
                 <div
                   v-for="items in message" :key="items"
-                  class="alert alert-danger"
+                  class="alert alert-danger" :class="successful ? 'alert-success' : 'alert-danger'"
                 >
-                  {{ items.message }}
+                <li class="list-unstyled"> {{ items.toString() }} </li>
                 </div>
                 </div>
                 <form
@@ -238,7 +238,9 @@ export default {
           //   (error.response && error.response.data) ||
           //   error.message ||
           //   error.toString();
-            this.message = error.response.data.message.toString()
+            // this.message = error.response.data.message
+            this.message = error.response.data.errors
+            // console.log(error.response.data.errors)
           this.successful = false;
         }
       );
