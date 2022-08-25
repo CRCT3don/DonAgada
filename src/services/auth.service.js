@@ -11,7 +11,7 @@ class AuthService {
         })
         if (response.data.data.token) {
             localStorage.setItem('user', JSON.stringify(response.data.data.token))
-            // router.replace('/userpost')
+            router.replace('/userpost')
         }
         return response.data.data
     }
@@ -25,6 +25,12 @@ class AuthService {
         localStorage.removeItem('user')
         return response.message
     }
+
+    // autoLogout(){
+    //     setTimeout(() => {
+    //         this.logout
+    //     }, 10000);
+    // }
     
     async register(user){
         const response = await axiosInstance.post('/api/register', {
@@ -36,7 +42,22 @@ class AuthService {
         })
         if (response.data.data.token) {
             localStorage.setItem('user', JSON.stringify(response.data.data.token))
-            // router.replace('/userpost')
+            router.replace('/userpost')
+        }
+        return response.data.data
+    }
+
+    async onCreateEvent(event){
+        const response = await axiosInstance.post('/api/event/create', {
+            first_name: event.first_name,
+            last_name: event.last_name,
+            email: event.email,
+            password: event.password,
+            password_confirmation: event.password_confirmation,
+        })
+        if (response.data) {
+            console.log(response)
+            router.replace('/userpost')
         }
         return response.data.data
     }

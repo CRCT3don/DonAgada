@@ -12,21 +12,21 @@
     </div>
     </div>
   </div>
-  <Footer />
+  <!-- <Footer /> -->
 </template>
 
 <script>
 // import axios from 'axios';
 // import axiosInstance from '@/services/axiosInstance';
 import HeaderUser from "../components/HeaderUser.vue";
-import Footer from "@/components/Footer.vue";
+// import Footer from "@/components/Footer.vue";
 
 export default {
   name: "MySingleEvent-vue",
 
   components: {
     HeaderUser,
-    Footer,
+    // Footer,
   },
 
   data() {

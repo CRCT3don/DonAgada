@@ -124,7 +124,7 @@
         </section>
       </div>
     </div>
-    <Footer />
+    <!-- <Footer /> -->
   </div>
 </template>
 
@@ -132,14 +132,14 @@
 // import axios from 'axios';
 // import axiosInstance from '@/services/axiosInstance';
 import Header from "../components/Header.vue";
-import Footer from "@/components/Footer.vue";
+// import Footer from "@/components/Footer.vue";
 
 export default {
   name: "MakeReservation-vue",
 
   components: {
     Header,
-    Footer,
+    // Footer,
   },
 
   data() {

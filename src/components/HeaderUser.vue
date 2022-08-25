@@ -30,7 +30,6 @@
             <router-link class="nav-link dropdown-toggle gray-4" to="/" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <img src="../assets/img/logoIcon/avatar.png" alt="" class="img-fluid avatar"></router-link>
             <div class="dropdown-menu" aria-labelledby="dropdownId">
               <button class="dropdown-item gray-4" @click="handleSignOut">SignOut</button>
-              <a class="dropdown-item gray-4" href="#">Action 2</a>
             </div>
           </div>
         </div>
@@ -47,7 +46,7 @@ export default {
   methods: {
      handleSignOut(){
       this.$store.dispatch('auth/logout');
-      this.$router.push('/login');
+      this.$router.push('/');
       }
       }
     }

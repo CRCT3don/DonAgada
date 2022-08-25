@@ -52,11 +52,23 @@
                   Create your account and let’s get you started.
                 </p>
 
-                      <div
-        v-if="message"
-        class="alert"
-        :class="successful ? 'alert-success' : 'alert-danger'"
-      >{{message}}</div>
+                <!-- <div
+                  v-if="message"
+                  class="alert"
+                  :class="successful ? 'alert-success' : 'alert-danger'"
+                >
+                  {{ message }}
+                </div> -->
+
+                <div v-if="message">
+
+                <div
+                  v-for="items in message" :key="items"
+                  class="alert alert-danger"
+                >
+                  {{ items.message }}
+                </div>
+                </div>
                 <form
                   class="col-md-12 my-2 px-4 pt-2 m-auto"
                   @submit.prevent="handleRegister()"
@@ -159,10 +171,15 @@
                     class="col-md-12 m-auto d-flex justify-content-center px-3 text-center"
                   >
                     <button
-                      class="button-theme text-decoration-none"
+                      class="button-theme"
+                      :disabled="loading"
                       type="submit"
                     >
-                      SIGN-UP
+                      <span
+                        v-show="loading"
+                        class="spinner-border spinner-border-sm mx-2"
+                      ></span>
+                      <span>SIGN UP</span>
                     </button>
                   </div>
                 </form>
@@ -171,60 +188,64 @@
           </div>
         </div>
       </div>
-      </div>
+    </div>
   </section>
 </template>
 
 <script>
-import User from '@/models/user';
-
+import User from "@/models/user";
 
 export default {
   name: "Signin-vue",
 
   data() {
     return {
-      user: new User('', '', '', '', ''),
+      user: new User("", "", "", "", ""),
       submitted: false,
       successful: false,
-      message: ''
+      message: "",
+      loading: false,
     };
   },
 
   computed: {
     loggedIn() {
-      return this.$store.state.auth.status.loggedIn
+      return this.$store.state.auth.status.loggedIn;
+    },
+  },
+
+  mounted() {
+    if (this.loggedIn) {
+      this.$router.replace("/userpost");
+      console.log(this.loggedIn);
     }
   },
 
-  mounted(){
-    if(this.loggedIn == true){
-      this.$router.replace('/userpost')
-    console.log(this.loggedIn)
-    }
-  },
-
-  methods:{
-    handleRegister(){
-      this.message = '',
-      this.submitted = true,
+  methods: {
+    handleRegister() {
+      (this.message = ""), (this.submitted = true), (this.loading = true);
       // this.$validator.validate()
       // .then(isValid => {
       //   if(isValid){
-          this.$store.dispatch('auth/register', this.user)
-          .then(data => {
-            this.message = data.message
-            this.successful = true
-          },
-          error => {
-            this.message = (error.response && error.response.data) || error.message || error.toString()
-            this.successful = false
-          })
+      this.$store.dispatch("auth/register", this.user).then(
+        (data) => {
+          this.message = data.message;
+          this.successful = true;
+        },
+        (error) => {
+          this.loading = false;
+          // this.message =
+          //   (error.response && error.response.data) ||
+          //   error.message ||
+          //   error.toString();
+            this.message = error.response.data.message.toString()
+          this.successful = false;
         }
-      // })
-    }
-  }
-
+      );
+    },
+    // })
+  },
+};
 </script>
 
 <style scoped>

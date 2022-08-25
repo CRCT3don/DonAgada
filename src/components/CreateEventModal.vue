@@ -28,6 +28,11 @@
             <span class="text-black"> Event Details</span>
           </p>
           <form class="col-md-12 px-3 scrollspy" action="">
+            <div class="form-group">
+              <div class="alert alert-danger" v-if="message" role="alert">
+                {{ message }}
+              </div>
+            </div>
             <!-- <div class="row px-3"> -->
             <div class="col-md-12 mb-3 m-auto">
               <label for="event_name" class="gray-3 fs-6"
@@ -37,7 +42,7 @@
                 type="text"
                 class="input-theme"
                 name="event_name"
-                v-model="event_name"
+                v-model="user.event_name"
               />
             </div>
             <div class="col-md-12 mb-3 m-auto">
@@ -46,7 +51,7 @@
               </label>
               <select
                 class="input-theme"
-                v-model="type"
+                v-model="user.type"
                 placeholder="Select Option..."
               >
                 <option>Free</option>
@@ -59,13 +64,21 @@
               <label for="date" class="gray-3 fs-6"
                 >Event Date <span class="text-danger">*</span></label
               >
-              <input type="date" v-model="event_date" class="input-theme" />
+              <input
+                type="date"
+                v-model="user.event_date"
+                class="input-theme"
+              />
             </div>
             <div class="col-md-12 mb-3 m-auto">
               <label for="time" class="gray-3 fs-6"
                 >Event Time <span class="text-danger">*</span></label
               >
-              <input type="time" v-model="start_time" class="input-theme" />
+              <input
+                type="time"
+                v-model="user.start_time"
+                class="input-theme"
+              />
             </div>
             <!-- </div> -->
             <div class="col-md-12 mb-3 m-auto">
@@ -74,7 +87,7 @@
               >
               <input
                 type="number"
-                v-model="maximun_seats"
+                v-model="user.maximum_seats"
                 class="input-theme"
               />
             </div>
@@ -93,7 +106,7 @@
               <input
                 type="text"
                 class="form-control input-theme"
-                v-model="location"
+                v-model="user.location"
               />
             </div>
           </form>
@@ -106,10 +119,11 @@
           </button>
           <button
             type="button"
-            class="button-theme"
+            class="button-theme" :disabled="loading"
             @click.prevent="onCreateEvent"
           >
-            CREATE EVENT
+          <span v-show="loading" class="spinner-border spinner-border-sm mx-2"></span>
+           <span> CREATE EVENT </span>
           </button>
         </div>
       </div>
@@ -121,52 +135,79 @@
 
 <script>
 import CreateEventMixins from "@/mixins/CreateEventMixins";
-import axiosInstance from "@/services/axiosInstance";
+import User from "@/models/user";
+// import axiosInstance from "@/services/axiosInstance";
 
 export default {
   name: "EventModal-vue",
 
   data() {
     return {
-      event_name: "",
-      type: "",
-      event_date: "",
-      start_time: "",
-      maximum_seats: "",
-      location: "",
+      user: new User("", "", "", "", "", ""),
+      loading: false,
+      message: "",
     };
   },
 
-  setup() {
-    const onCreateEvent = () => {
-      const createEvent = {
-        method: "POST",
-        url: "/api/event/create",
-        headers: { "Media-Type": "application/json", Authorization: "Bearer" },
-        data: {
-          event_name: this.event_name,
-          type: this.type,
-          event_date: this.event_date,
-          start_time: this.start_time,
-          maximum_seats: this.maximum_seats,
-          location: this.location,
-        },
-      };
-
-      axiosInstance
-        .request(createEvent)
-        .then((response) => {
-          console.log(response.data);
-          this.$router.repplace("/userpost");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
-    return {
-      onCreateEvent,
-    };
+  methods: {
+    onCreateEvent() {
+      this.loading = true;
+      if (
+        this.event_name &&
+        this.type &&
+        this.event_date &&
+        this.start_time &&
+        this.maximum_seats &&
+        this.location
+      ) {
+        this.$store.dispatch("auth/onCreateEvent", this.user)
+        .then(
+          () => {
+            this.$router.replace('/userpost')
+          },
+          (error) => {
+            this.loading = false;
+            this.message =
+              (error.message && error.message.response.data) ||
+              error.message ||
+              error.toString();
+          }
+        );
+      }
+    },
   },
+  // methods:{
+  //   onCreateEvent(){
+  //     if(this.loggedIn){
+  //       this.$router.replace('/userpost')
+  //       const createEvent = {
+  //       method: "POST",
+  //       url: "/api/event/create",
+  //       headers: { "Media-Type": "application/json", Authorization: "Bearer" },
+  //       data: {
+  //         event_name: this.event_name,
+  //         type: this.type,
+  //         event_date: this.event_date,
+  //         start_time: this.start_time,
+  //         maximum_seats: this.maximum_seats,
+  //         location: this.location,
+  //       },
+  //     };
+
+  //     axiosInstance
+  //       .request(createEvent)
+  //       .then((response) => {
+  //         console.log(response.data);
+  //         this.$router.repplace("/userpost");
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //     } else {
+  //       this.$router.replace('/login')
+  //     }
+  //   }
+  // },
 
   mixins: [CreateEventMixins],
 };

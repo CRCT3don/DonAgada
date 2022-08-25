@@ -6,15 +6,18 @@
         <p class="h4 text-warning fst-italic">The page you're looking is not available. Please check back later </p>
     </div>
     </div>
-<Footer />
+<!-- <Footer /> -->
 </template>
 
 <script>
 import Header from '@/components/Header.vue';
-import Footer from '@/components/Footer.vue';
+// import Footer from '@/components/Footer.vue';
 export default {
     name: "PageNotFound-vue",
-    components: { Header, Footer }
+    components: { 
+        Header, 
+        // Footer 
+        }
 }
 </script>
 

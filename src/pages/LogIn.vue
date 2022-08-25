@@ -27,6 +27,9 @@
           <p class="text-center fw-normal fst-italic text-white">
             Login to continue from where we stopped!
           </p>
+                      <div class="form-group">
+              <div class="alert alert-danger" v-if="message" role="alert"> {{message}} </div>
+            </div>
           <form
             class="col-md-12 my-4 px-4 pt-2 m-auto"
             @submit.prevent="handleLogin"
@@ -81,9 +84,7 @@
               <span>LOGIN</span>
               </button>
             </div>
-            <div class="form-group">
-              <div class="alert alert-danger" v-if="message" role="alert"> {{message}} </div>
-            </div>
+
           </form>
 
           <div class="col-md-8 m-auto">
@@ -149,9 +150,12 @@ export default {
           },
           error => {
             this.loading = false
-            this.message = (error.response && error.response.data) || error.message || error.toString()
+            // console.log(error.response.data.message)
+            this.message = error.response.data.message.toString()
+            // this.message = (error.response && error.response.data) || error.message || error.toString()
           })
         } else {
+            this.message = 'Please input your details!'
         alert('error')
         this.loading = false
         }

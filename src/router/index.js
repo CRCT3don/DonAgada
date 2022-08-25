@@ -13,9 +13,6 @@ import Test from '../pages/Test.vue'
 
 const PageNotFound = () => import ('../pages/PageNotFound.vue')
 
-// import store from '@/store'
-// import { IS_USER_AUTHETICATED_GETTER } from '@/store/storeconstants'
-
 
 const routes = [
   { 
@@ -27,6 +24,7 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeView,
+    meta: {auth: false}
   },
   { 
     path: '/signup',
@@ -86,12 +84,13 @@ const router = createRouter({
 //     next()
 //   }
 // })
+
 router.beforeEach((to, from, next) => {
-  const publicPages = ['/login', '/printinvoice', '/signup', '/', '/makereservation', '/raw']
+  const publicPages = ['/login', '/printinvoice', '/signup', '/', '/makereservation', '/raw', '/:pathMatch(.*)*']
   const authRequired = !publicPages.includes(to.path)
   const loggedIn = localStorage.getItem('user')
   if(authRequired && !loggedIn){
-    next('/signup')
+    next('/login')
   } else {
     next()
   }

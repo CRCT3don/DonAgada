@@ -63,8 +63,8 @@
 </template>
 
 <script>
-import axios from "axios";
-import { onMounted, reactive } from "@vue/runtime-core";
+// import axios from "axios";
+// import { onMounted, reactive } from "@vue/runtime-core";
 
 export default {
   name: "BlogPost-vue",
@@ -77,31 +77,31 @@ export default {
     };
   },
 
-  setup() {
-    const blogPost = reactive({});
+  // setup() {
+  //   const blogPost = reactive({});
 
-    onMounted(() => {
-      const post = {
-        method: "GET",
-        url: "https://event-reservation-system.herokuapp.com/api",
-        headers: {}
-      };
+  //   onMounted(() => {
+  //     const post = {
+  //       method: "GET",
+  //       url: "https://event-reservation-system.herokuapp.com/api",
+  //       headers: {}
+  //     };
 
-      axios
-        .request(post)
-        .then((response) => {
-          blogPost.details = response.data;
-          // console.log(blogPost.title)
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    });
+  //     axios
+  //       .request(post)
+  //       .then((response) => {
+  //         blogPost.details = response.data;
+  //         // console.log(blogPost.title)
+  //       })
+  //       .catch((error) => {
+  //         console.error(error);
+  //       });
+  //   });
 
-    return {
-      blogPost,
-    };
-  },
+  //   return {
+  //     blogPost,
+  //   };
+  // },
 };
 </script>
 

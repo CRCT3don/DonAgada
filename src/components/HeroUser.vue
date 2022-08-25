@@ -14,20 +14,21 @@
           </p>
         </div>
         <div class="d-flex justify-content-center mb-5">
-          <button class="button-theme-2">CREATE EVENT</button>
+          <button class="button-theme-2" data-bs-toggle="modal" data-bs-target="#createEvent">CREATE EVENT</button>
         </div>
-
       </div>
       </div>
     </div>
+    <CreateEventModal />
   </section>
 </template>
 
 <script>
+import CreateEventModal from './CreateEventModal.vue';
 export default {
   name: "HeroLaning-vue",
 
-  components: {},
+  components: { CreateEventModal },
 
   setup() {
     return {};

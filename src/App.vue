@@ -1,7 +1,6 @@
 <template>
   <div>
   <router-view/>
-  <!-- <HomeView/> -->
   </div>
 </template>
 
@@ -10,7 +9,6 @@
 export default {
   name: "App",
 
-  components: { },
 
 
 };
