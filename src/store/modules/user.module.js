@@ -7,5 +7,5 @@ export const event ={
             return userService.onCreateEvent(user)
             .then() 
         }
-    }
+    } 
 }

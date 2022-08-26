@@ -16,6 +16,7 @@
 </template>
 
 <script>
+import userService from '@/services/user.service';
 // import axios from 'axios';
 // import axiosInstance from '@/services/axiosInstance';
 import HeaderUser from "../components/HeaderUser.vue";
@@ -31,6 +32,16 @@ export default {
 
   data() {
     return {};
+  },
+
+  computed:{
+    myEvents(){
+      return userService.getMyEvents().find((event) => event.uid === this.$route.params.uid)
+    }
+  },
+
+  created(){
+    console.log(this.myEvents)
   },
 };
 </script>

@@ -7,6 +7,7 @@ import MySingleEvents from '../pages/UserViewEvent.vue'
 import MakeReservation from '../pages/MakeReservation.vue'
 import PrintInvoice from '../pages/PrintInvoice.vue'
 import Test from '../pages/Test.vue'
+import UpdateEvent from '../pages/UpdateEvent.vue'
 
 //OPTIMIZED LOADING
 // const HomeView = () => import ('../views/HomeView.vue')
@@ -45,13 +46,19 @@ const routes = [
     meta: {auth: true}
   },
   { 
-    path: '/mySingleEvent',
+    path: '/mySingleEvent/:uid',
     name: 'mySingleEvent',
     component: MySingleEvents,
     meta: {auth: true}
   },
   { 
-    path: '/makereservation',
+    path: '/event',
+    name: 'event',
+    component: UpdateEvent,
+    // meta: {auth: true}
+  },
+  { 
+    path: '/makereservation/:uid',
     name: 'makereservation',
     component: MakeReservation,
     meta: {auth: false}
