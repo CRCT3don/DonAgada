@@ -14,6 +14,8 @@ class AuthService {
         if (response.data.data.token) {
             localStorage.setItem('user', JSON.stringify(response.data.data.token))
             router.replace('/userpost')
+            // console.log(response.data.data.user.uid)
+            localStorage.setItem('uid', JSON.stringify(response.data.data.user.uid))
         }
         return response.data.data
     }
@@ -21,6 +23,7 @@ class AuthService {
    logout() {
     if (localStorage.getItem('user')) {
         localStorage.removeItem('user')
+        localStorage.removeItem('uid')
     }
         return axiosInstance.get('/api/sign-out')
 
@@ -39,28 +42,15 @@ class AuthService {
             email: user.email,
             password: user.password,
             password_confirmation: user.password_confirmation,
-        })
+        }) 
         if (response.data.data.token) {
             localStorage.setItem('user', JSON.stringify(response.data.data.token))
-            router.replace('/userpost')
+            router.replace('/userpost')   
+            // console.log(response.data.data.user.uid)
+            localStorage.setItem('uid', JSON.stringify(response.data.data.user.uid))
         }
         return response.data.data
     }
-
-    // async onCreateEvent(event){
-    //     const response = await axiosInstance.post('/api/event/create', {headers: authHeader()}, {
-    //         first_name: event.first_name,
-    //         last_name: event.last_name,
-    //         email: event.email,
-    //         password: event.password,
-    //         password_confirmation: event.password_confirmation,
-    //     })
-    //     if (response.data) {
-    //         console.log(response)
-    //         router.replace('/userpost')
-    //     }
-    //     return response.data.data
-    // }
 }
 
 export default new AuthService()

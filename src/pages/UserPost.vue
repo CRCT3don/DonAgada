@@ -18,7 +18,7 @@
     </div>-->
 
         <div v-if="deleteMessage" class="alert alert-success alert-dismissible fade show" role="alert">
-          A simple secondary alert with <a href="#" class="alert-link">an example link</a>. Give it a click if you like.
+          Event Deleted
           <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
 
@@ -27,12 +27,16 @@
           <div class="container">
             <!-- <div class="row" v-for="item in blogPost.details" :key="item.description"> -->
             <div class="row">
-              <section class="col-md-6 m-auto">
-                <div class="card border-0 shadow">
+ 
+
+
+              <!-- REAL CONTENT -->
+              <section class="col-md-6 m-auto"  v-for="items in eventDetails" :key="items">
+                <div class="card border-0 shadow-sm my-2">
                   <div class="row g-0">
                     <div class="col-md-4">
                       <img
-                        src="../assets/img/card/burna.png"
+                        src="../assets/img/blank_img.webp"
                         class="img-fluid card-img"
                         alt="..."
                       />
@@ -114,18 +118,18 @@
                         <!-- MODAL END -->
 
                         <div class="col-md-12">
-                          <small class="fw-light text-muted">Title</small>
+                          <small class="fw-light text-muted">  Title</small>
                           <h5 class="card-title theme fw-bolder">
-                            Event Title
+                            {{items.event_name}}
                           </h5>
                         </div>
                         <div class="d-flex justify-content-between">
                           <div class="col-md-5">
                             <small class="fw-light text-muted"
-                              >Ticket Amount</small
+                              >Event Type</small
                             >
                             <p class="card-text text-black font-16 fw-bolder">
-                              Amount
+                              {{items.type}}
                             </p>
                           </div>
 
@@ -134,30 +138,28 @@
                               >Ticket Available</small
                             >
                             <small class="text-black fw-light d-block">
-                              300 Seats Remaining
+                              {{items.maximun_seats}}
                             </small>
                           </div>
                         </div>
                         <div class="h-50">
                           <p class="text-black font-14">
                             <small>
-                              <i class="fa-solid fa-calendar-days"></i> Wed, 3
-                              Aug - 3:00pm</small
+                              <i class="fa-solid fa-calendar-days"></i>{{items.event_date}} - {{items.start_time}} </small
                             >
                           </p>
 
-                          <p class="text-black font-14 fw-bold">
+                          <!-- <p class="text-black font-14 fw-bold">
                             <small>
                               <i class="fa-solid fa-clock"></i> 1hr
                               45mins</small
                             >
-                          </p>
+                          </p> -->
                           <p class="text-black">
                             <i class="fa-solid fa-location-dot"></i
                             ><small
                               ><em>
-                                sLocation addresss adress address address
-                                address
+                                {{items.location}}
                               </em></small
                             >
                           </p>
@@ -186,7 +188,8 @@ export default {
   data() {
     return {
       deleteMessage: "",
-      eventDelete: false
+      eventDelete: false,
+      eventDetails:[]
     };
   },
   components: { CreateEventModal },
@@ -200,25 +203,29 @@ export default {
     userService.getMyEvents()
     .then(
       (response) => {
-        console.log(response);
-        // this.event_details = response.data
+        // console.log(response);
+        this.eventDetails = response.data.data.events
       },
       (error) => {
         console.log(error);
-      }
-    );
+      });
   },
 
   methods: {
     deleteEvent() {
-      userService.deleteEvent(this.event_details.id).then(
-        (response) => {
-          this.deleteMessage = response.message;
-        },
-        (error) => {
-          this.deleteMessage = error.data;
-        }
-      );
+      let deleteId = this.eventDetails.find((event) => {return event.forEach((e) => {
+  e.onclick = (e) => console.log(e.id);
+})})
+      console.log(deleteId)
+
+      // userService.deleteEvent(deleteId)
+      // .then((response) => {
+      //     this.deleteMessage = response.message;
+      //   },
+      //   (error) => {
+      //     this.deleteMessage = error.data;
+      //   }
+      // );
     },
   },
 };
@@ -239,5 +246,7 @@ export default {
 
 .card-img {
   height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 </style>

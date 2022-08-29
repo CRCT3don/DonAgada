@@ -223,12 +223,14 @@ export default {
 
   methods: {
     handleRegister() {
-      (this.message = ""), (this.submitted = true), (this.loading = true);
+      this.message = "", 
+      this.submitted = true,
+      this.loading = true
       // this.$validator.validate()
       // .then(isValid => {
       //   if(isValid){
-      this.$store.dispatch("auth/register", this.user).then(
-        (data) => {
+      this.$store.dispatch("auth/register", this.user)
+      .then((data) => {
           this.message = data.message;
           this.successful = true;
         },
@@ -242,8 +244,7 @@ export default {
             this.message = error.response.data.errors
             // console.log(error.response.data.errors)
           this.successful = false;
-        }
-      );
+        });
     },
     // })
   },

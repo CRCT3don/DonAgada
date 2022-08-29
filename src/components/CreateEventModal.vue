@@ -78,7 +78,7 @@
                 >Seats Available <span class="text-danger">*</span></label
               >
               <input
-                type="number"
+                type="text"
                 v-model="maximum_seats"
                 class="input-theme"
               />
@@ -160,7 +160,8 @@ export default {
       console.log(this.event_name, this.type)
       this.loading = true;
       let user = JSON.parse(localStorage.getItem("user"));
-      console.log(user)
+      let uid = JSON.parse(localStorage.getItem("uid"));
+      
 
       const options = {
         method: "POST",
@@ -170,12 +171,14 @@ export default {
           Authorization: `Bearer ${user}`,
         },
         data: {
+          user_id: uid,
           event_name: this.event_name,
-          type: this.type,
-          event_date: this.event_date,
-          start_time: this.start_time,
-          maximum_seats: this.maximum_seats,
           location: this.location,
+          event_date: this.event_date,
+          type: this.type,
+          status: 'active',
+          start_time: this.start_time,
+          maximun_seats: this.maximum_seats,
         },
       };
 
@@ -183,10 +186,15 @@ export default {
         .request(options)
         .then((response) => {
           console.log(response.data);
+          if(response.data.status === 'Success'){
           this.$router.replace("/userpost");
-        })
+          location.reload()
+        }
+      })
         .catch((error) => {
           console.error(error);
+          // location.reload(false)
+          window.stop()
           this.loading = false;
         });
     },
