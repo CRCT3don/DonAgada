@@ -3,7 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import UserIndex from '../views/UserIndex.vue'
 import SignUp from '../pages/SignUp.vue'
 import LogIn from '../pages/LogIn.vue'
-import MySingleEvents from '../pages/UserViewEvent.vue'
+import UserViewEvent from '../pages/UserViewEvent.vue'
 import MakeReservation from '../pages/MakeReservation.vue'
 import PrintInvoice from '../pages/PrintInvoice.vue'
 import Test from '../pages/Test.vue'
@@ -46,11 +46,17 @@ const routes = [
     meta: {auth: true}
   },
   { 
-    path: '/mySingleEvent/:uid',
-    name: 'mySingleEvent',
-    component: MySingleEvents,
+    path: '/mysingleevent/:id',
+    name: 'mysingleevent',
+    component: UserViewEvent,
     meta: {auth: true}
   },
+  // { 
+  //   path: '/mysingleevent/:id',
+  //   name: 'mySingleEvent',
+  //   component: UserViewEvent,
+  //   meta: {auth: true}
+  // },
   { 
     path: '/event',
     name: 'event',

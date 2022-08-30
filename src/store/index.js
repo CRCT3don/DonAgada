@@ -6,7 +6,7 @@ import { auth } from "./modules/auth.module"
 const store = createStore({
     modules: { 
         // signupModule,
-        auth
+        auth,
     },
 }) 
 

@@ -2,48 +2,65 @@
 
 <!-- DEPRECATED -->
   <HeaderUser />
-  <div class= "bg-dark mt-5">
-    <div class="container mt-5">
-    <div class="card">
+  <div class="bg-dark">
+    <div class="container pt-5">
+    <div class="card mt-5">
     <div class="row g-0">
-      <img src="../assets/img/card/burna.png" alt="">
-
+popo
     </div>
     </div>
     </div>
   </div>
-  <!-- <Footer /> -->
+  <Footer />
 </template>
 
 <script>
 import userService from '@/services/user.service';
-// import axios from 'axios';
-// import axiosInstance from '@/services/axiosInstance';
 import HeaderUser from "../components/HeaderUser.vue";
-// import Footer from "@/components/Footer.vue";
+import Footer from "@/components/Footer.vue";
 
 export default {
-  name: "MySingleEvent-vue",
+  name: "UserViewEvent-vue",
 
   components: {
     HeaderUser,
-    // Footer,
+    Footer,
   },
 
-  data() {
-    return {};
+  data(){
+    return {
+      service: userService.getMyEvents(),
+      singleEvent: []
+  }
   },
 
-  computed:{
-    myEvents(){
-      return userService.getMyEvents().find((event) => event.uid === this.$route.params.uid)
-    }
-  },
+  // computed:{
+  //   myEvents(){
+  //     return this.service.filter(event => event.data.filter(event => event.id === this.$router.params.id)) ;
+  //   },
+  // },
 
   created(){
-    console.log(this.myEvents)
+    this.service.then((response) => {
+      // console.log(response.data.data.events)
+      this.singleEvent = response.data.data.events
+
+      // this.singleEvent.find(this.$router.params.id)
+
+      // for(const event in this.singleEvent){
+      //   if(event.id === this.$router.params.id){
+      //     console.log(event.id)
+      // }
+      // }
+    })
   },
-};
+
+  mounted(){
+    // console.log(this.$router.params.id)
+    this.singleEvent.find(this.$router.params.id)
+  }
+  
+}; 
 </script>
 
 <style scoped>

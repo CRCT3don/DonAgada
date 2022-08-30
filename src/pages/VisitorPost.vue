@@ -18,38 +18,41 @@
     </div>-->
 
     <article class="row mb-3">
-      <div class="col-md-10 m-auto">
-        <div class="container">
+      <div class="col-md-12 m-auto">
+        <div class="container" >
           <!-- <div class="row" v-for="item in blogPost.details" :key="item.description"> -->
-          <div class="row">
-            <section class="col-md-4 m-auto">
-              <div class="card border-0 shadow">
+          <div class="row" >
+            <section class="col-md-3 m-auto" v-for="events in event_details" :key="events">
+              <div class="card  my-4 border- shadow-sm">
                 <img
-                  src="../assets/img/bg/Hero.png"
+                  src="../assets/img/blank_img.webp"
                   class="card-img-top img-fluid"
                   alt="..."
                 />
                 <div class="card-body">
-                  <h5 class="card-title theme fw-bolder"> Event Title</h5>
+                  <h5 class="card-title theme fw-bolder"> {{events.event_name}}</h5>
                   <div class="d-flex justify-content-between">
                   <div class="col-md-6">
                   <p class="card-text text-muted font-16 fw-light"
-                    > Amount
+                    > {{events.type}}
                   </p>
                   </div>
 
                   <div class="col-md-6">
-                  <p class="card-text text-muted font-16 fw-light"><i class="fa-solid fa-ticket"></i> 3000 Seats Remaining</p>
+                  <p class="card-text text-muted font-16 fw-light"><i class="fa-solid fa-ticket"></i> {{events.maximun_seats}} Seats Left</p>
                   </div>
                   </div>
+                  <p class="card-text text-muted font-14 fw-light">
+                    <i class="fa-solid fa-location"></i> {{events.location}}
+                  </p>
                 </div>
                 <div class="card-footer">
                 <div class=" d-flex justify-content-between">
-                  <small class="card-text text-muted font-10 fw-light"
-                    ><i class="fa-solid fa-calendar-days"></i> Amount
+                  <small class="card-text text-muted fw-light"
+                    ><i class="fa-solid fa-calendar-days"></i> {{events.event_date}}
                   </small>
 
-                  <small class="card-text text-muted font-10 fw-light"><i class="fa-solid fa-ticket"></i> 3000 Seats Remaining</small>
+                  <small class="card-text text-muted fw-light"><i class="fa-solid fa-ticket"></i> {{events.start_time}}</small>
                 </div>
                 </div>
               </div>
@@ -73,15 +76,15 @@ export default {
 
   data() {
     return {
-      event_details: '',
+      event_details: []
     };
   },
 
   mounted(){
     userService.getAllEvents()
-    .then(response => {
-      console.log(response)
-      // this.event_details = response.data
+    .then((response) => {
+      // console.log(response)
+      this.event_details = response.data.data.events
     }, 
     error => {
       console.log(error)
@@ -92,6 +95,8 @@ export default {
 };
 </script>
 
-<style>
-
+<style scoped>
+  .height{
+   height: 200px !important;
+  }
 </style>

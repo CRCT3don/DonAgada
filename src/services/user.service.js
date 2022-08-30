@@ -4,11 +4,15 @@ import authHeader from './auth-header'
 
 class UserService {
     getAllEvents(){
-        return axiosInstance.get('/api/events')
+        return axiosInstance.get('/api/all-events')
     }
     
     getMyEvents(){
         return axiosInstance.get('/api/event/my-events', {headers: authHeader()})
+    }
+    
+    getAllEventsUser(){
+        return axiosInstance.get('/api/event', {headers: authHeader()})
     }
     
     deleteMyEvents(){
@@ -37,23 +41,6 @@ class UserService {
         console.error(error);
       });
     }
-
-    // onCreateEvent(user){
-    //    return axiosInstance.post('/api/event/create' ,
-    //         {headers: authHeader()}, 
-    //         {
-    //         event_name: user.event_name,
-    //         type: user.type,
-    //         event_date: user.event_date,
-    //         start_time: user.start_time,
-    //         maximum_seats: user.maximum_seats,
-    //         location: user.location,
-    //     })
-    //     .then(response => {
-    //         console.log(response)
-    //         router.replace('/userpost')
-    //     })
-    // }
 }
 
 export default new UserService()

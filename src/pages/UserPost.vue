@@ -56,7 +56,7 @@
                         </div>
                         <div class="bg-theme edit text-white badge">
                           <router-link
-                            to="/"
+                            :to="`/mysingleevent/${items.id}`"
                             class="font-10 text-decoration-none text-white"
                             >edit</router-link
                           >
@@ -103,7 +103,6 @@
                                   Cancel
                                 </button>
                                 <button
-                                  data-bs-dismiss="modal"
                                   type="button"
                                   class="btn bg-danger text-white shadow-none"
                                   @click.prevent="deleteEvent"
@@ -213,10 +212,22 @@ export default {
 
   methods: {
     deleteEvent() {
-      let deleteId = this.eventDetails.find((event) => {return event.forEach((e) => {
-  e.onclick = (e) => console.log(e.id);
-})})
-      console.log(deleteId)
+    for (const item of this.eventDetails) {
+      if(item.id === '' ){
+      console.log(item.id)
+    }
+    }
+
+    let deleteId = this.eventDetails.indexOf()
+    console.log(deleteId)
+      // let deleteId = this.eventDetails.filter(item => {
+      //   console.log(item)
+      //   return item.id
+      // })
+//       let deleteId = this.eventDetails.find((event) => {return event.forEach((e) => {
+//   e.onclick = (e) => console.log(e.id);
+// })})
+
 
       // userService.deleteEvent(deleteId)
       // .then((response) => {

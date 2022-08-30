@@ -15,13 +15,25 @@ import Footer from '@/components/Footer.vue';
 
 export default {
   name: "HomeView",
-
+ 
   components: {
     HeroLanding,
     VisitorPost,
     Header,
     Footer
 },
+
+computed: {
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn
+    }
+  },
+
+  created(){
+    if(this.loggedIn){
+      this.$router.replace('/userpost')
+    }
+  },
 
   setup() {
     return {};
