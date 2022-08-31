@@ -15,8 +15,8 @@
           <li class="nav-item dropdown visually hidden">
             <a class="nav-link dropdown-toggle gray-4" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Explore Events</a>
             <div class="dropdown-menu" aria-labelledby="dropdownId">
-              <a class="dropdown-item gray-4" href="#" >Action 1</a>
-              <a class="dropdown-item gray-4" href="#">Action 2</a>
+              <router-link to="/userpost" class="dropdown-item gray-4" >My Events</router-link>
+              <router-link to="/userview" class="dropdown-item gray-4">All Events</router-link>
             </div>
           </li>
           <li class="nav-item">

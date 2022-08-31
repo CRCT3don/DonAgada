@@ -30,7 +30,9 @@
                   alt="..."
                 />
                 <div class="card-body">
-                  <h5 class="card-title theme fw-bolder"> {{events.event_name}}</h5>
+                  <router-link :to="`/makereservation/${events.id}`" class="text-decoration-none">
+                    <h5 class="card-title theme fw-bolder"> {{events.event_name}}</h5>
+                  </router-link> 
                   <div class="d-flex justify-content-between">
                   <div class="col-md-6">
                   <p class="card-text text-muted font-16 fw-light"

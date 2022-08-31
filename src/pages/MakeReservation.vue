@@ -10,7 +10,8 @@
                 class="col-md-5 bg-light p-5 shadow m-auto rounded-3 align-self-center"
               >
                 <p class="h5 theme fw-bolder">
-                  Event Name - Event Date - Event Time
+                  {{ eventGetter.id }} 
+                  - Event Date - Event Time
                 </p>
                 <img
                   src="../assets/img/card/kizzDaniel.png"
@@ -93,7 +94,7 @@
         </section>
       </div>
     </div>
-    <!-- <Footer /> -->
+    <Footer />
   </div>
 </template>
 
@@ -101,19 +102,40 @@
 // import axios from 'axios';
 // import axiosInstance from '@/services/axiosInstance';
 import Header from "../components/Header.vue";
-// import Footer from "@/components/Footer.vue";
+import Footer from "@/components/Footer.vue";
+import userService from '@/services/user.service';
 
 export default {
   name: "MakeReservation-vue",
 
   components: {
     Header,
-    // Footer,
+    Footer,
   },
 
   data() {
-    return {};
+    return {
+      allEvents: userService.getAllEvents(),
+      singleEvent : [],
+    };
   },
+
+  create(){
+    this.allEvents.then(response => {
+      this.singleEvent = response.data.data.events
+    })
+  },
+
+  computed:{
+    eventGetter(){
+      return this.singleEvent.find(event => event.id === this.$route.params.id)
+    }
+  },
+
+  mounted(){
+    console.log(this.singleEvent)
+  }
+
 };
 </script>
 

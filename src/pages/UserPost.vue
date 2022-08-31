@@ -45,7 +45,6 @@
                       <div class="card-body">
                         <div class="bg-accent del text-white badge">
                           <button
-                            to="/"
                             type="button"
                             data-bs-toggle="modal"
                             data-bs-target="#staticBackdropLive"
@@ -212,13 +211,10 @@ export default {
 
   methods: {
     deleteEvent() {
-    for (const item of this.eventDetails) {
-      if(item.id === '' ){
-      console.log(item.id)
-    }
-    }
+      // this.singleEvent.find(event => event.id === this.$route.params.id) ;
 
-    let deleteId = this.eventDetails.indexOf()
+
+    let deleteId = this.eventDetails.find(event => event.id === this.$route.params.id)
     console.log(deleteId)
       // let deleteId = this.eventDetails.filter(item => {
       //   console.log(item)
