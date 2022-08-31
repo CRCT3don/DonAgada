@@ -10,11 +10,11 @@
                 class="col-md-5 bg-light p-5 shadow m-auto rounded-3 align-self-center"
               >
                 <p class="h5 theme fw-bolder">
-                  {{ eventGetter.id }} 
-                  - Event Date - Event Time
+                  {{ eventGetter.event_name }} 
+                  - {{eventGetter.event_date}} - {{eventGetter.start_time}}
                 </p>
                 <img
-                  src="../assets/img/card/kizzDaniel.png"
+                  src="../assets/img/blank_img.webp"
                   class="img-fluid card-img"
                   alt="..."
                 />
@@ -27,20 +27,19 @@
                     <p class="card-title h6 theme fw-bolder">Event Details</p>
                   </div>
                   <small class="fw-light text-muted font-10"
-                    >Event Organizer</small
+                    >Event Organizer </small
                   >
                   <p class="card-text text-black font-14 fw-bolder">
-                    Event Organizer
+                    {{eventGetter.user.first_name}} {{eventGetter.user.last_name}}
                   </p>
 
                   <div class="d-flex col-md-12 justify-content-between">
                     <div class="col-md-6">
                       <small class="fw-light text-muted font-10"
-                        ><i class="fa-solid fa-calendar-days"></i>Date and
-                        Time</small
+                        ><i class="fa-solid fa-calendar-days"></i>  Date and time</small
                       >
                       <p class="card-text text-black font-14 fw-bolder">
-                        Date and time
+                        {{eventGetter.event_date}} - {{eventGetter.start_time}}
                       </p>
                     </div>
 
@@ -58,9 +57,9 @@
                     <i class="fa-solid fa-location-dot"></i> Location
                   </small>
                   <p class="text-black font-14">
-                    Location addresss adress address address address
+                    {{eventGetter.location}}
                   </p>
-                  <div class="d-flex col-md-8 justify-content-between">
+                  <!-- <div class="d-flex col-md-8 justify-content-between">
                     <div class="col-md-6">
                       <small class="fw-light text-muted font-10"
                         ><i class="fa-solid fa-tags"></i>Amount</small
@@ -73,9 +72,9 @@
                     <div class="col-md-6">
                       <input type="number" class="input-theme" />
                     </div>
-                  </div>
+                  </div> -->
                   <hr />
-                  <div class="d-flex col-md-12 justify-content-between">
+                  <!-- <div class="d-flex col-md-12 justify-content-between">
                     <div class="col-md-6">
                       <p class="text-muted">2x Ticket(s)</p>
                     </div>
@@ -83,7 +82,7 @@
                     <div class="col-md-6">
                       <p class="h6 fw-bolder">N20,000.00</p>
                     </div>
-                  </div>
+                  </div> -->
                   <button class="button-theme-2 m-auto text-center">
                     MAKE RESERVATIONS
                   </button>
@@ -99,8 +98,6 @@
 </template>
 
 <script>
-// import axios from 'axios';
-// import axiosInstance from '@/services/axiosInstance';
 import Header from "../components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import userService from '@/services/user.service';
@@ -120,8 +117,8 @@ export default {
     };
   },
 
-  create(){
-    this.allEvents.then(response => {
+  created(){
+    this.allEvents.then((response) => {
       this.singleEvent = response.data.data.events
     })
   },
@@ -131,10 +128,10 @@ export default {
       return this.singleEvent.find(event => event.id === this.$route.params.id)
     }
   },
-
-  mounted(){
-    console.log(this.singleEvent)
-  }
+  
+  // mounted(){
+  //   console.log(this.singleEvent)
+  // }
 
 };
 </script>
@@ -149,6 +146,8 @@ export default {
 }
 
 .logo-scoped {
-  width: 150px;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
 }
 </style>
