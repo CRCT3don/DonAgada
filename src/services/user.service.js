@@ -3,6 +3,7 @@ import axiosInstance from "@/services/axiosInstance"
 import authHeader from './auth-header'
 
 class UserService {
+  
     getAllEvents(){
         return axiosInstance.get('/api/all-events')
     }
@@ -53,20 +54,25 @@ class UserService {
         {
           // event_id: payload.events_id,
           // user_id: JSON.parse(localStorage.getItem("uid")),
-          user_id: payload.uid,
+          user_id: payload.user_id,
           event_name: payload.event_name,
           location: payload.location,
           event_date: payload.event_date,
           type: payload.type,
-          status: 'active',
+          status: payload.status,
+          description: payload.description,
           start_time: payload.start_time,
           maximun_seats: payload.maximun_seats,
         })
-      return await router.replace('/userpost')
+        return await router.replace('/userpost')
     }
     
-    deleteMyEvents(){
-        return axiosInstance.delete('/api/event/my-delete' + this.$route.params.id, {headers: authHeader()})
+    deleteMyEvents(payload){
+        return axiosInstance.delete('/api/event/my-delete', {headers: authHeader()},
+        {
+          event_id : payload.id,
+          event_name: payload.event_name
+        })
         .then((res) => {
           console.log(res)
         })

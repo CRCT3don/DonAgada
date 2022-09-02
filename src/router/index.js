@@ -5,6 +5,7 @@ import UserAllEvents from '../views/UserAllEvents.vue'
 import SignUp from '../pages/SignUp.vue'
 import LogIn from '../pages/LogIn.vue'
 import UserViewEvent from '../pages/UserViewEvent.vue'
+import UserEventsSingle from '../pages/UserEventsSingle.vue'
 import MakeReservation from '../pages/MakeReservation.vue'
 import PrintInvoice from '../pages/PrintInvoice.vue'
 import Test from '../pages/Test.vue'
@@ -54,9 +55,15 @@ const routes = [
     meta: {auth: true}
   },
   { 
-    path: '/mysingleevent/:id',
-    name: 'mysingleevent',
+    path: '/updateEvent/:id',
+    name: 'updateEvent',
     component: UserViewEvent,
+    meta: {auth: true}
+  },
+  { 
+    path: '/myevent/:id',
+    name: 'myevent',
+    component: UserEventsSingle,
     meta: {auth: true}
   },
   // { 

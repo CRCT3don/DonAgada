@@ -3,8 +3,6 @@ import axiosInstance from "@/services/axiosInstance"
 // import authHeader from "./auth-header"
 // import authHeader from "@/services/auth-header"
 
-// const API_URL = 'https://event-reservation-system.herokuapp.com'
-
 class AuthService {
     async login(user) {
         const response = await axiosInstance.post('/api/signin', {
@@ -14,19 +12,17 @@ class AuthService {
         if (response.data.data.token) {
             localStorage.setItem('user', JSON.stringify(response.data.data.token))
             router.replace('/userpost')
-            // console.log(response.data.data.user.uid)
             localStorage.setItem('uid', JSON.stringify(response.data.data.user.uid))
         }
         return response.data.data
     }
 
    logout() {
-    if (localStorage.getItem('user')) {
-        localStorage.removeItem('user')
-        localStorage.removeItem('uid')
-    }
-        return axiosInstance.get('/api/sign-out')
-
+       if (localStorage.getItem('user')) {
+           localStorage.removeItem('user')
+           localStorage.removeItem('uid')
+           return axiosInstance.get('/api/sign-out')
+        }
     }
 
     // autoLogout(){
@@ -37,7 +33,6 @@ class AuthService {
     
     async register(user){
         const response = await axiosInstance.post('/api/register',
-        //  {headers: authHeader()}, 
          {
             first_name: user.first_name,
             last_name: user.last_name,
@@ -48,7 +43,7 @@ class AuthService {
         if (response.data.data.token) {
             localStorage.setItem('user', JSON.stringify(response.data.data.token))
             router.replace('/userpost')   
-            // console.log(response.data.data.user.uid)
+            console.log(response.data)
             localStorage.setItem('uid', JSON.stringify(response.data.data.user.uid))
         }
         return response.data.data

@@ -43,7 +43,7 @@
                     </div>
                     <div class="col-md-8 gap-0">
                       <div class="card-body">
-                        <div class="bg-accent del text-white badge">
+                        <!-- <div class="bg-accent del text-white badge">
                           <button
                             type="button"
                             data-bs-toggle="modal"
@@ -59,11 +59,11 @@
                             class="font-10 text-decoration-none text-white"
                             >edit</router-link
                           >
-                        </div>
+                        </div> -->
 
                         <!-- MODAL CONTENT -->
 
-                        <div
+                        <!-- <div
                           class="modal fade"
                           id="staticBackdropLive"
                           data-bs-backdrop="static"
@@ -81,12 +81,12 @@
                                 >
                                   Are you sure you want to delete?
                                 </h5>
-                                <!-- <button
+                                <button
                                   type="button"
                                   class="btn-close"
                                   data-bs-dismiss="modal"
                                   aria-label="Close"
-                                ></button> -->
+                                ></button>
                               </div>
                               <div class="modal-body">
                                 <p class="fw-bolder fs-5 fst-italic accent">
@@ -111,15 +111,15 @@
                               </div>
                             </div>
                           </div>
-                        </div>
+                        </div> -->
 
                         <!-- MODAL END -->
 
                         <div class="col-md-12">
                           <small class="fw-light text-muted">  Title</small>
-                          <h5 class="card-title theme fw-bolder">
+                          <router-link :to="`/myevent/${items.id}`" class="card-title d-block text-decoration-none theme fw-bolder">
                             {{items.event_name}}
-                          </h5>
+                          </router-link >
                         </div>
                         <div class="d-flex justify-content-between">
                           <div class="col-md-5">
@@ -187,7 +187,11 @@ export default {
     return {
       deleteMessage: "",
       eventDelete: false,
-      eventDetails:[]
+      eventDetails:[],
+      event: {
+        // event_id: this.eventDetails.id,
+        // event_name: this.eventDetails.event_name,
+      }
     };
   },
   components: { CreateEventModal },
@@ -204,6 +208,11 @@ export default {
       (response) => {
         // console.log(response);
         this.eventDetails = response.data.data.events
+        // if(this.evenDetails){
+        //   for(const items in this.eventDetails){
+        //     console.log(items)
+        //   }
+        // }
       },
       (error) => {
         console.log(error);
@@ -226,15 +235,19 @@ export default {
 // })})
 
 
-      userService.deleteEvent()
-      // .then((response) => {
-      //     this.deleteMessage = response.message;
-      //   },
-      //   (error) => {
-      //     this.deleteMessage = error.data;
-      //     console.log(error)
-      //   }
-      // );
+      userService.deleteEvent(this.event)
+      .then((response) => {
+          this.deleteMessage = response.message;
+          this.$router.replace("/userpost");
+          location.reload()
+        },
+        (error) => {
+          this.deleteMessage = error.data;
+          console.log(this.deleteMessage)
+          this.loading = false
+          window.stop()
+        }
+      );
     },
   },
 };

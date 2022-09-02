@@ -26,6 +26,79 @@
                   </h5>
                 </div>
                 <div class="card-body bg-white py-3">
+
+                  <div class="bg-accent del text-white badge">
+                    <button
+                      type="button"
+                      data-bs-toggle="modal"
+                      data-bs-target="#staticBackdropLive"
+                      class="font-10 btn-sm btn text-decoration-none shadow-none text-white"
+                    >
+                      del
+                    </button>
+                  </div>
+                  <div class="bg-theme edit text-white badge">
+                    <router-link
+                      :to="`/mysingleevent/${items.id}`"
+                      class="font-10 text-decoration-none text-white"
+                      >edit</router-link
+                    >
+                  </div>
+
+                  <!-- MODAL CONTENT -->
+
+                  <div
+                    class="modal fade"
+                    id="staticBackdropLive"
+                    data-bs-backdrop="static"
+                    data-bs-keyboard="false"
+                    tabdindex="-1"
+                    aria-labelledby="staticBackdropLiveLabel"
+                    aria-hidden="true"
+                  >
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5
+                            class="modal-title theme fw-bolder"
+                            id="staticBackdropLiveLabel"
+                          >
+                            Are you sure you want to delete?
+                          </h5>
+                          <!-- <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button> -->
+                        </div>
+                        <div class="modal-body">
+                          <p class="fw-bolder fs-5 fst-italic accent">
+                            Action cannot be undone!
+                          </p>
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline-danger shadow-none"
+                            data-bs-dismiss="modal"
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            type="button"
+                            class="btn bg-danger text-white shadow-none"
+                            @click.prevent="deleteEvent()"
+                          >
+                            Confirm
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- MODAL END -->
+
                   <p class="fw-bolder theme">
                     <i class="fa-solid fa-circle-info"></i>
                     <span class="text-black"> Event Details</span>
@@ -264,5 +337,17 @@ export default {
 
 .logo-scoped {
   width: 150px;
+}
+
+.edit {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.del {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
 }
 </style>

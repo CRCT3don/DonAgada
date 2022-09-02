@@ -248,11 +248,6 @@ body {
   margin-bottom: 10px;
 }
 
-input,
-textarea {
-  resize: none;
-}
-
 .height-reduced {
   height: 450px;
   overflow-x: hidden !important;

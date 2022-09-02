@@ -45,7 +45,7 @@
                 type="text"
                 class="input-theme"
                 name="event_name"
-                v-model="event_name"
+                v-model="event.event_name"
               />
             </div>
             <div class="col-md-12 mb-3 m-auto">
@@ -54,7 +54,7 @@
               </label>
               <select
                 class="input-theme"
-                v-model="type"
+                v-model="event.type"
                 placeholder="Select Option..."
               >
                 <option>free</option>
@@ -67,13 +67,13 @@
               <label for="date" class="gray-3 fs-6"
                 >Event Date <span class="text-danger">*</span></label
               >
-              <input type="date" v-model="event_date" class="input-theme" />
+              <input type="date" v-model="event.event_date" class="input-theme" />
             </div>
             <div class="col-md-12 mb-3 m-auto">
               <label for="time" class="gray-3 fs-6"
                 >Event Time <span class="text-danger">*</span></label
               >
-              <input type="time" v-model="start_time" class="input-theme" />
+              <input type="time" v-model="event.start_time" class="input-theme" />
             </div>
             <!-- </div> -->
             <div class="col-md-12 mb-3 m-auto">
@@ -82,7 +82,7 @@
               >
               <input
                 type="text"
-                v-model="maximum_seats"
+                v-model="event.maximun_seats"
                 class="input-theme"
               />
             </div>
@@ -95,13 +95,20 @@
             </div>
             <div class="col-md-12 mb-3 m-auto">
               <label for="type" class="gray-3 fs-6"
+                >Event Description
+                <span class="text-danger">*</span>
+              </label>
+              <textarea class=" input-theme" rows="12" v-model="event.description"> </textarea>
+            </div>
+            <div class="col-md-12 mb-3 m-auto">
+              <label for="type" class="gray-3 fs-6"
                 >Event Location
                 <span class="text-danger">*</span>
               </label>
               <input
                 type="text"
                 class="form-control input-theme"
-                v-model="location"
+                v-model="event.location"
               />
             </div>
           </form>
@@ -134,8 +141,8 @@
 </template>
 
 <script>
-// import userService from '@/services/user.service';
-import axiosInstance from "@/services/axiosInstance";
+import userService from '@/services/user.service';
+// import axiosInstance from "@/services/axiosInstance";
 
 export default {
   name: "EventModal-vue",
@@ -148,66 +155,72 @@ export default {
           type: "",
           event_date: "",
           start_time: "",
-          maximum_seats: "",
+          maximun_seats: "",
+          description: '',
           location: "",
-          message: "",
-          messages: "",
-          uid : JSON.parse(localStorage.getItem("uid")),
+          status: 'active',
+          user_id : JSON.parse(localStorage.getItem("uid")),
           user : JSON.parse(localStorage.getItem("user")),
         },
-      loading: false,
-      message: ''
+        message: "",
+        messages: "",
+        loading: false,
+      // message: ''
     };
   },
 
   methods: {
     onCreateEvent() {
       this.loading = true;
-      // if(this.event){
-      //   userService.createEvent(this.event)
-      //   .then(() => {
-      //     this.$router.replace("/userpost");
-      //     location.reload()
-      //   },
-      //   error => {
-      //     this.messages = error.response.data.errors
-      //     this.message = error.response.data.message.toString()
-      //     this.loading = false
-      //     window.stop()
-      //   })
-      // }
-      // console.log(this.event_name, this.type)
       let user = JSON.parse(localStorage.getItem("user"));
+      console.log(user)
+      console.log(this.event.user_id)
+      console.log(this.event.maximum_seats)
+      
+      if(this.event){
+        userService.createEvent(this.event)
+        .then(() => {
+          this.$router.replace("/userpost");
+          location.reload()
+        },
+        error => {
+          this.messages = error.response.data.errors
+          this.message = error.response.data.message.toString()
+          this.loading = false
+          window.stop()
+        })
+      }
+      // console.log(this.event_name, this.type)
       // let uid = JSON.parse(localStorage.getItem("uid"));
       
 
-      const options = {
-        method: "POST",
-        url: "/api/event/create",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user}`,
-        },
-        data: this.event,
-      };
+      // const options = {
+      //   method: "POST",
+      //   url: "/api/event/create",
+      //   headers: {
+      //     "Content-Type": "application/json",
+      //     Authorization: `Bearer ${user}`,
+      //   },
+      //   data: this.event,
+      // };
 
-      axiosInstance
-        .request(options)
-        .then((response) => {
-          console.log(response.data);
-          if(response.data.status === 'Success'){
-          this.$router.replace("/userpost");
-          location.reload()
-        }
-      })
-        .catch((error) => {
-    //       console.error(error);
-            this.messages = error.response.data.errors
-            this.message = error.response.data.message.toString()
-          // location.reload(false)
-          window.stop()
-          this.loading = false;
-        });
+      // axiosInstance
+      //   .request(options)
+      //   .then((response) => {
+      //     console.log(response.data);
+      //     if(response.data.status === 'Success'){
+      //     this.$router.replace("/userpost");
+      //     location.reload()
+      //   }
+      // })
+      //   .catch((error) => {
+      //     console.error(error);
+      //       this.messages = error.response.data.errors
+      //       this.message = error.response.data.message.toString()
+      //     // location.reload(false)
+      //     window.stop()
+      //     this.loading = false;
+      //   });
     },
   },
 };
