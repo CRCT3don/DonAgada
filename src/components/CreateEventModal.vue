@@ -30,7 +30,10 @@
           <form class="col-md-12 px-3 scrollspy" action="">
             <div class="form-group">
               <div class="alert alert-danger" v-if="message" role="alert">
-                {{ message }}
+                <div v-for="error	in messages" :key="error"> 
+                  <li> {{ error.toString() }} </li>
+                </div>
+                <!-- {{message}} -->
               </div>
             </div>
             <!-- <div class="row px-3"> -->
@@ -131,11 +134,8 @@
 </template>
 
 <script>
-import CreateEventMixins from "@/mixins/CreateEventMixins";
-// import User from "@/models/user";
 // import userService from '@/services/user.service';
 import axiosInstance from "@/services/axiosInstance";
-// import authHeader from "@/services/auth-header";
 
 export default {
   name: "EventModal-vue",
@@ -143,24 +143,42 @@ export default {
   data() {
     return {
       // user: new User("", "", "", "", "", ""),
-        event_name: "",
-        type: "",
-        event_date: "",
-        start_time: "",
-        maximum_seats: "",
-        location: "",
+       event: { 
+          event_name: "",
+          type: "",
+          event_date: "",
+          start_time: "",
+          maximum_seats: "",
+          location: "",
+          message: "",
+          messages: "",
+          uid : JSON.parse(localStorage.getItem("uid")),
+          user : JSON.parse(localStorage.getItem("user")),
+        },
       loading: false,
-      message: "",
+      message: ''
     };
   },
 
   methods: {
-
     onCreateEvent() {
-      console.log(this.event_name, this.type)
       this.loading = true;
+      // if(this.event){
+      //   userService.createEvent(this.event)
+      //   .then(() => {
+      //     this.$router.replace("/userpost");
+      //     location.reload()
+      //   },
+      //   error => {
+      //     this.messages = error.response.data.errors
+      //     this.message = error.response.data.message.toString()
+      //     this.loading = false
+      //     window.stop()
+      //   })
+      // }
+      // console.log(this.event_name, this.type)
       let user = JSON.parse(localStorage.getItem("user"));
-      let uid = JSON.parse(localStorage.getItem("uid"));
+      // let uid = JSON.parse(localStorage.getItem("uid"));
       
 
       const options = {
@@ -170,16 +188,7 @@ export default {
           "Content-Type": "application/json",
           Authorization: `Bearer ${user}`,
         },
-        data: {
-          user_id: uid,
-          event_name: this.event_name,
-          location: this.location,
-          event_date: this.event_date,
-          type: this.type,
-          status: 'active',
-          start_time: this.start_time,
-          maximun_seats: this.maximum_seats,
-        },
+        data: this.event,
       };
 
       axiosInstance
@@ -192,15 +201,15 @@ export default {
         }
       })
         .catch((error) => {
-          console.error(error);
+    //       console.error(error);
+            this.messages = error.response.data.errors
+            this.message = error.response.data.message.toString()
           // location.reload(false)
           window.stop()
           this.loading = false;
         });
     },
   },
-
-  mixins: [CreateEventMixins],
 };
 </script>
 

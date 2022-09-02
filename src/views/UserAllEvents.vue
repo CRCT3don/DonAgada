@@ -3,6 +3,7 @@
     <HeaderUser />
     <HeroUser />
     <UserEvents />
+    <!-- <VisitorPost /> -->
     <Footer />
   </div>
 </template>
@@ -13,6 +14,7 @@ import HeroUser from "../components/HeroUser.vue";
 import Footer from "@/components/Footer.vue";
 import authHeader from '@/services/auth-header';
 import UserEvents from "@/pages/UserEvents.vue";
+// import VisitorPost from "@/pages/VisitorPost.vue";
 
 export default {
   name: "UserAllEvents-vue",
@@ -21,7 +23,8 @@ export default {
     HeaderUser,
     HeroUser,
     Footer,
-    UserEvents
+    UserEvents,
+    // VisitorPost
 },
 
   created() {

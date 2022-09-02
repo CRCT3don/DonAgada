@@ -1,6 +1,6 @@
 import router from "@/router"
 import axiosInstance from "@/services/axiosInstance"
-import authHeader from "./auth-header"
+// import authHeader from "./auth-header"
 // import authHeader from "@/services/auth-header"
 
 // const API_URL = 'https://event-reservation-system.herokuapp.com'
@@ -36,7 +36,9 @@ class AuthService {
     // }
     
     async register(user){
-        const response = await axiosInstance.post('/api/register', {headers: authHeader()}, {
+        const response = await axiosInstance.post('/api/register',
+        //  {headers: authHeader()}, 
+         {
             first_name: user.first_name,
             last_name: user.last_name,
             email: user.email,

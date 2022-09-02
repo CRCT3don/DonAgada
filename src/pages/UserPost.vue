@@ -104,7 +104,7 @@
                                 <button
                                   type="button"
                                   class="btn bg-danger text-white shadow-none"
-                                  @click.prevent="deleteEvent"
+                                  @click.prevent="deleteEvent()"
                                 >
                                   Confirm
                                 </button>
@@ -191,6 +191,7 @@ export default {
     };
   },
   components: { CreateEventModal },
+
   computed: {
     loggedIn() {
       return this.$store.state.auth.status.loggedIn;
@@ -214,8 +215,8 @@ export default {
       // this.singleEvent.find(event => event.id === this.$route.params.id) ;
 
 
-    let deleteId = this.eventDetails.find(event => event.id === this.$route.params.id)
-    console.log(deleteId)
+    // let deleteId = this.eventDetails.find(event => event.id === this.$route.params.id)
+    // console.log(deleteId)
       // let deleteId = this.eventDetails.filter(item => {
       //   console.log(item)
       //   return item.id
@@ -225,12 +226,13 @@ export default {
 // })})
 
 
-      // userService.deleteEvent(deleteId)
+      userService.deleteEvent()
       // .then((response) => {
       //     this.deleteMessage = response.message;
       //   },
       //   (error) => {
       //     this.deleteMessage = error.data;
+      //     console.log(error)
       //   }
       // );
     },

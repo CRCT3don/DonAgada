@@ -162,7 +162,7 @@
                       <router-link
                         to="/"
                         class="theme fw-bold fst-normal text-decoration-none"
-                      >
+                      > 
                         Privacy Policy</router-link
                       ></small
                     >
@@ -193,14 +193,21 @@
 </template>
 
 <script>
-import User from "@/models/user";
+// import User from "@/models/user";
 
 export default {
   name: "Signin-vue",
 
   data() {
     return {
-      user: new User("", "", "", "", ""),
+      // user: new User("", "", "", "", ""),
+      user: {
+        first_name: '',
+        last_name: '',
+        email: '',
+        password: '',
+        password_confirmation: '',
+      },
       submitted: false,
       successful: false,
       message: "",
@@ -217,7 +224,6 @@ export default {
   mounted() {
     if (this.loggedIn) {
       this.$router.replace("/userpost");
-      console.log(this.loggedIn);
     }
   },
 

@@ -4,7 +4,11 @@
     <div class="mt-5">
       <div class="row m-auto">
         <section class="col-md-8 m-auto my-5">
+          <router-link to="/" class="text-decoration-none p-4 font-18 theme">
+            &lt; Back
+          </router-link>
           <div class="card bg-dark bg-opacity-10 border-0 p-4 m-auto">
+
             <div class="row gap-md-5 gap-sm-4 p-5 m-auto">
               <div
                 class="col-md-5 bg-light p-5 shadow m-auto rounded-3 align-self-center"
@@ -67,25 +71,36 @@
                       <p class="card-text text-black font-14 fw-bolder">
                         N10,000.00
                       </p>
-                    </div>
-
-                    <div class="col-md-6">
-                      <input type="number" class="input-theme" />
-                    </div>
-                  </div> -->
-                  <hr />
-                  <!-- <div class="d-flex col-md-12 justify-content-between">
-                    <div class="col-md-6">
-                      <p class="text-muted">2x Ticket(s)</p>
-                    </div>
-
+                    </div> 
+                    
                     <div class="col-md-6">
                       <p class="h6 fw-bolder">N20,000.00</p>
                     </div>
-                  </div> -->
-                  <button class="button-theme-2 m-auto text-center">
-                    MAKE RESERVATIONS
+                  </div>
+
+                    -->
+                  <hr />
+                  <div class="d-flex col-md-12 justify-content-between">
+                    <div class="col-md-6">
+                      <p class="text-muted" v-if="payload.number_of_reservation"> {{payload.number_of_reservation}}x Ticket<span v-show=" payload.number_of_reservation > 1">s </span> </p>
+                    </div>
+                    
+                    <div class="col-md-6">
+                      <input type="number" class="input-theme"
+                      v-model="payload.number_of_reservation" />
+                    </div>
+                  </div> 
+                  <div class="form-group">
+                    <div class="" v-if="message" role="alert"> <p class="fst-italic text-danger"> {{ message }} </p> </div>
+                  </div>
+                  <div
+                  class="col-md-12 m-auto d-flex justify-content-center px-3 text-center"
+                >
+                  <button class="button-theme-2 text-decoration-none" :disabled="loading" type="submit" @click.prevent="handleReservation">
+                  <span v-show="loading" class="spinner-border spinner-border-sm"></span>
+                  <span>MAKE RESERVATION</span>
                   </button>
+                </div>
                 </div>
               </div>
             </div>
@@ -114,6 +129,16 @@ export default {
     return {
       allEvents: userService.getAllEvents(),
       singleEvent : [],
+      loading: false,
+      message: ' ',
+      payload: {
+        name: '',    
+        event_id: "",
+        phone: "0808989809",
+        email: " ",
+        ticket_type: "regular",
+        number_of_reservation: ''
+      }
     };
   },
 
@@ -126,12 +151,34 @@ export default {
   computed:{
     eventGetter(){
       return this.singleEvent.find(event => event.id === this.$route.params.id)
-    }
+    },
   },
   
-  // mounted(){
-  //   console.log(this.singleEvent)
-  // }
+  mounted(){
+    this.payload.name = this.eventGetter.user.first_name + this.eventGetter.user.last_name
+    this.payload.email = this.eventGetter.user.email
+    this.payload.event_id = this.eventGetter.id
+  },
+
+  methods:{
+    handleReservation(){
+      this.loading = true
+      if(this.payload){
+        userService.makeReservation(this.payload)
+        .then(() => {
+        },
+        error => {
+          this.loading = false
+          this.message = error.response.data.message
+        })
+      } 
+      // else {
+      //       this.message = 'Error occured!'
+      //   // alert('error')
+      //   this.loading = false
+      //   }
+    }
+  }
 
 };
 </script>
