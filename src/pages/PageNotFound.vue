@@ -4,6 +4,7 @@
     <div class="container my-5 py-5 text-center">
         <p class="h1 text-danger">Error 404  </p>
         <p class="h4 text-warning fst-italic">The page you're looking is not available. Please check back later </p>
+        <center>   <router-link to="/" class="button-theme text-decoration-none">TAKE ME HOME </router-link></center>
     </div>
     </div>
 <Footer />

@@ -17,8 +17,7 @@ class UserService {
         ticket_type: payload.ticket_type,
         number_of_reservation : payload.number_of_reservation
       })
-      .then((response) => {
-        console.log(response)
+      .then(() => {
         router.replace('/printinvoice')
       }) 
       // .catch(error => console.log(error))
@@ -50,7 +49,8 @@ class UserService {
       }
 
     async createEvent(payload){
-      await axiosInstance.post('/api/event/create', { headers: authHeader() },
+      await axiosInstance.post('/api/event/create', { 
+        headers: authHeader() },
         {
           // event_id: payload.events_id,
           // user_id: JSON.parse(localStorage.getItem("uid")),
@@ -65,18 +65,29 @@ class UserService {
           maximun_seats: payload.maximun_seats,
         })
         return await router.replace('/userpost')
-    }
-    
-    deleteMyEvents(payload){
-        return axiosInstance.delete('/api/event/my-delete', {headers: authHeader()},
+      }
+
+    async createTicket(payload){
+      await axiosInstance.post('/api/event/create-ticket', { headers: authHeader() },
         {
-          event_id : payload.id,
+          // event_id: payload.events_id,
+          // user_id: JSON.parse(localStorage.getItem("uid")),
+          event_uid: payload.event_id,
+          amount: payload.amount,
+          type: payload.type,
+          maximun_reservation: payload.maximun_reservation,
+        })
+        return await router.replace('/userpost')
+      }
+      
+      async deleteMyEvents(payload){
+        await axiosInstance.delete('/api/event/delete', {headers: authHeader()},
+        {
+          event_uid: payload.event_id,
           event_name: payload.event_name
+
         })
-        .then((res) => {
-          console.log(res)
-        })
-        .catch(err => console.log(err))
+        return await router.replace('/userpost')
     }
 }
 

@@ -1,107 +1,176 @@
 <template>
   <main class="bg-gray-1">
-    <Header />
+    <HeaderUser />
     <div class="mt-5">
-      <div class="row m-auto">
-        <section class="col-md-8 m-auto my-5">
+      <div class="row">
+        <section class="col-md-10 m-auto my-5">
           <router-link to="/" class="text-decoration-none p-4 font-18 theme">
             &lt; Back
           </router-link>
-          <div class="card bg-dark bg-opacity-10 border-0 p-4 m-auto">
-
-            <div class="row gap-md-5 gap-sm-4 p-5 m-auto">
+          <div class="card bg-dark bg-opacity-10 border-0 p-4">
+            <div class="row gap-sm-4 p-5 m-auto">
               <div
-                class="col-md-5 bg-light p-5 shadow m-auto rounded-3 align-self-center"
+                class="col-md-6 bg-light p-5 shadow m-auto rounded-3 align-self-center"
               >
                 <p class="h5 theme fw-bolder">
-                  {{ eventGetter.event_name }} 
-                  - {{eventGetter.event_date}} - {{eventGetter.start_time}}
+                  {{ eventGetter.event_name }}
+                </p>
+                <p class="h5 theme fw-bolder">
+                  {{ eventGetter.event_date }} - {{ eventGetter.start_time }}
                 </p>
                 <img
                   src="../assets/img/blank_img.webp"
                   class="img-fluid card-img"
                   alt="..."
                 />
+                <small class="text-muted">
+                  {{ eventGetter.description }}
+                </small>
               </div>
               <div
-                class="col-md-5 border-0 rounded-3 shadow-sm align-self-center bg-light"
+                class="col-md-3 border-0 rounded-3 shadow-sm align-self-center bg-light my-3"
               >
                 <div class="card-body">
-                  <div class="mb-3">
+                  <div class="badges">
+                    <div class="bg-accent del text-white badge">
+                      <button
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#staticBackdropLive"
+                        class="font-10 btn-sm btn text-decoration-none shadow-none text-white"
+                      >
+                        del
+                      </button>
+                    </div>
+                    <div class="bg-theme p-3 edit text-white badge">
+                      <router-link
+                        :to="`/myevent/edit-my-event/${eventGetter.id}`"
+                        class="font-10 text-decoration-none text-white"
+                        >edit</router-link
+                      >
+                    </div>
+                  </div>
+                  <!-- MODAL CONTENT -->
+
+                  <div
+                    class="modal fade"
+                    id="staticBackdropLive"
+                    data-bs-backdrop="static"
+                    data-bs-keyboard="false"
+                    tabdindex="-1"
+                    aria-labelledby="staticBackdropLiveLabel"
+                    aria-hidden="true"
+                  >
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5
+                            class="modal-title theme fw-bolder"
+                            id="staticBackdropLiveLabel"
+                          >
+                            Are you sure you want to delete?
+                          </h5>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div class="modal-body">
+                          <p class="fw-bolder fs-5 fst-italic accent">
+                            Action cannot be undone!
+                          </p>
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline-danger shadow-none"
+                            data-bs-dismiss="modal"
+                          >
+                            Cancel
+                          </button>
+                          <button
+                            type="button"
+                            class="btn bg-danger text-white shadow-none"
+                            @click.prevent="handleDelete()"
+                          >
+                            Confirm
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- MODAL END -->
+                  <div class="my-3">
                     <p class="card-title h6 theme fw-bolder">Event Details</p>
                   </div>
-                  <small class="fw-light text-muted font-10"
-                    >Event Organizer </small
-                  >
-                  <p class="card-text text-black font-14 fw-bolder">
-                    {{eventGetter.user.first_name}} {{eventGetter.user.last_name}}
-                  </p>
-
-                  <div class="d-flex col-md-12 justify-content-between">
-                    <div class="col-md-6">
-                      <small class="fw-light text-muted font-10"
-                        ><i class="fa-solid fa-calendar-days"></i>  Date and time</small
-                      >
-                      <p class="card-text text-black font-14 fw-bolder">
-                        {{eventGetter.event_date}} - {{eventGetter.start_time}}
-                      </p>
-                    </div>
-
-                    <div class="col-md-6">
-                      <small class="fw-light text-muted">
-                        <i class="fa-solid fa-clock font-10"></i>
-                        Duration</small
-                      >
-                      <p class="card-text text-black font-14 fw-bolder">
-                        Hours
-                      </p>
-                    </div>
-                  </div>
-                  <small class="fw-light text-muted font-10">
-                    <i class="fa-solid fa-location-dot"></i> Location
-                  </small>
-                  <p class="text-black font-14">
-                    {{eventGetter.location}}
-                  </p>
-                  <!-- <div class="d-flex col-md-8 justify-content-between">
-                    <div class="col-md-6">
-                      <small class="fw-light text-muted font-10"
-                        ><i class="fa-solid fa-tags"></i>Amount</small
-                      >
-                      <p class="card-text text-black font-14 fw-bolder">
-                        N10,000.00
-                      </p>
-                    </div> 
-                    
-                    <div class="col-md-6">
-                      <p class="h6 fw-bolder">N20,000.00</p>
-                    </div>
+                  <div>
+                    <small class="fw-light text-muted">Event Organizer </small>
+                    <p class="card-text text-black font-14 fw-bolder">
+                      {{ eventGetter.user.first_name }}
+                      {{ eventGetter.user.last_name }}
+                    </p>
                   </div>
 
-                    -->
-                  <hr />
-                  <div class="d-flex col-md-12 justify-content-between">
-                    <div class="col-md-6">
-                      <p class="text-muted" v-if="payload.number_of_reservation"> {{payload.number_of_reservation}}x Ticket<span v-show=" payload.number_of_reservation > 1">s </span> </p>
+                  <div class="row">
+                    <div class="col-md-12 mt-2">
+                      <div>
+                        <small class="fw-light text-muted"
+                          ><i class="fa-solid fa-calendar-days"></i> Date and
+                          time</small
+                        >
+                        <p class="card-text text-black font-14 fw-bolder">
+                          {{ eventGetter.event_date }} :
+                          {{ eventGetter.start_time }}
+                        </p>
+                      </div>
                     </div>
-                    
-                    <div class="col-md-6">
-                      <input type="number" class="input-theme"
-                      v-model="payload.number_of_reservation" />
-                    </div>
-                  </div> 
-                  <div class="form-group">
-                    <div class="" v-if="message" role="alert"> <p class="fst-italic text-danger"> {{ message }} </p> </div>
                   </div>
-                  <div
-                  class="col-md-12 m-auto d-flex justify-content-center px-3 text-center"
-                >
-                  <button class="button-theme-2 text-decoration-none" :disabled="loading" type="submit" @click.prevent="handleReservation">
-                  <span v-show="loading" class="spinner-border spinner-border-sm"></span>
-                  <span>MAKE RESERVATION</span>
-                  </button>
+                  <div class="mt-2">
+                    <small class="fw-light text-muted">
+                      <i class="fa-solid fa-location-dot"></i> Location
+                    </small>
+                    <p class="text-black font-14">
+                      {{ eventGetter.location }}
+                    </p>
+                  </div>
+
+                  <div class="mt-2">
+                    <small class="fw-light text-muted">
+                      <i class="fa-solid fa-ticket"></i>
+                      Tickets Available
+                    </small>
+                    <p
+                      class="card-text text-black font-14 fw-bolder"
+                      v-html="
+                        eventGetter.maximun_seats -
+                        eventGetter.total_reservation
+                      "
+                    ></p>
+                  </div>
+
+                  <div class="mt-2">
+                    <small class="fw-light text-muted">
+                      <i class="fa-solid fa-ticket"></i>
+                      Amount
+                    </small>
+                    <div v-if="(eventGetter.type = 'paid')">
+                      <p
+                        class="card-text text-black font-14 fw-bolder"
+                        v-for="item in eventGetter.ticket"
+                        :key="item"
+                      >
+                        {{ item.type }}: {{ item.amount }}
+                      </p>
+                    </div>
+                    <div v-if="(eventGetter.type = 'free')">
+                      <p class="card-text text-black font-14 fw-bolder">FREE</p>
+                    </div>
+                  </div>
                 </div>
-                </div>
+                <router-link :to="`/myevent/createticket/${eventGetter.id}`" class="button-theme text-decoration-none my-4">CREATE TICKET</router-link>
               </div>
             </div>
           </div>
@@ -114,60 +183,80 @@
 
 <script>
 import userService from "@/services/user.service";
+import Footer from "@/components/Footer.vue";
+import HeaderUser from "@/components/HeaderUser.vue";
 
 export default {
   name: "UserEventsSingle-vue",
   data() {
     return {
-      singleEvent:[],
-      allEvents: '',
+      singleEvent: [],
+      allEvents: "",
+      eventDelete: "",
+      deleteData: {
+        event_id: "",
+        event_name: "",
+      },
     };
   },
 
-  components: {  },
+  components: { Footer, HeaderUser },
 
-  created(){
+  created() {
     userService.getAllEventsUser().then((response) => {
-      this.singleEvent = response.data.data.events
-      console.log(this.singleEvent)
-    })
+      this.singleEvent = response.data.data.events;
+      console.log(this.singleEvent);
+    });
+
+    // userService.deleteEvent(this.deleteData)
+    // .then((response) => {
+    //   this.singleEvent = response.data.data.events;
+    //   console.log(this.singleEvent);
+    // })
   },
 
   computed: {
-    eventGetter(){
-      return this.singleEvent.find(event => event.id === this.$route.params.id)
+    eventGetter() {
+      return this.singleEvent.find(
+        (event) => event.id === this.$route.params.id
+      );
     },
   },
 
-  // mounted() {
-  //   userService.getAllEventsUser()
-  //   .then(
-  //     (response) => {
-  //       // console.log(response);
-  //       this.allEvents = response.data.data.events
-  //     },
-  //     (error) => {
-  //       console.log(error);
-  //     });
-  // },
+  mounted() {
+    this.deleteData.event_id = this.eventGetter.event_uid;
+    this.deleteData.event_name = this.eventGetter.event_name;
+  },
 
-  // methods: {
-    // deleteEvent() {
+  methods: {
+    handleDelete() {
+      console.log(this.deleteData)
+      if (this.deleteData.event_id) {
+        userService.deleteMyEvents(this.deleteData).then(
+          () => {
+            this.$router.replace("/userpost");
+            location.reload();
+          },
+          (error) => {
+            console.log(error);
+            window.stop();
+          }
+        );
+      } else {
+        alert('no event_id')
+      }
       // this.singleEvent.find(event => event.id === this.$route.params.id) ;
 
-
-    // let deleteId = this.eventDetails.find(event => event.id === this.$route.params.id)
-    // console.log(deleteId)
+      // let deleteId = this.eventDetails.find(event => event.id === this.$route.params.id)
+      // console.log(deleteId)
       // let deleteId = this.eventDetails.filter(item => {
       //   console.log(item)
       //   return item.id
       // })
-//       let deleteId = this.eventDetails.find((event) => {return event.forEach((e) => {
-//   e.onclick = (e) => console.log(e.id);
-// })})
-
-
-      // userService.deleteEvent(deleteId)
+      //       let deleteId = this.eventDetails.find((event) => {return event.forEach((e) => {
+      //   e.onclick = (e) => console.log(e.id);
+      // })})
+      // userService.deleteEvent(this.eventGetter.id)
       // .then((response) => {
       //     this.deleteMessage = response.message;
       //   },
@@ -175,22 +264,21 @@ export default {
       //     this.deleteMessage = error.data;
       //   }
       // );
-  //   },
-  // },
+    },
+  },
 };
 </script>
 
 <style scoped>
-.edit {
-  position: absolute;
-  top: 10px;
-  right: 10px;
+.edit,
+.del {
+  margin: 10px;
 }
 
-.del {
+.badges {
   position: absolute;
-  bottom: 10px;
-  right: 10px;
+  top: 18px;
+  right: 70px;
 }
 
 .card-img {
