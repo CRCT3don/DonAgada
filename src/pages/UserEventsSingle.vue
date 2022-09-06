@@ -165,9 +165,9 @@
                         {{ item.type }}: {{ item.amount }}
                       </p>
                     </div>
-                    <div v-if="(eventGetter.type = 'free')">
+                    <!-- <div v-if="(eventGetter.type = 'free')">
                       <p class="card-text text-black font-14 fw-bolder">FREE</p>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
                 <router-link :to="`/myevent/createticket/${eventGetter.id}`" class="button-theme text-decoration-none my-4">CREATE TICKET</router-link>
@@ -225,26 +225,24 @@ export default {
 
   mounted() {
     this.deleteData.event_id = this.eventGetter.event_uid;
-    this.deleteData.event_name = this.eventGetter.event_name;
+    // this.deleteData.event_name = this.eventGetter.event_name;
   },
 
   methods: {
     handleDelete() {
-      console.log(this.deleteData)
-      if (this.deleteData.event_id) {
-        userService.deleteMyEvents(this.deleteData).then(
+      // console.log(this.deleteData)
+      // if (this.deleteData.event_id) {
+        userService.deleteMyEvents(this.deleteData)
+        .then(
           () => {
             this.$router.replace("/userpost");
             location.reload();
-          },
+          }, 
           (error) => {
             console.log(error);
             window.stop();
-          }
-        );
-      } else {
-        alert('no event_id')
-      }
+          });
+      // }
       // this.singleEvent.find(event => event.id === this.$route.params.id) ;
 
       // let deleteId = this.eventDetails.find(event => event.id === this.$route.params.id)

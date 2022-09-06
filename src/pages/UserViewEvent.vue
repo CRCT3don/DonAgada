@@ -95,7 +95,7 @@
                       >
                       <input
                         type="text"
-                        v-model="event.maximum_seats"
+                        v-model="event.maximun_seats"
                         class="input-theme"
                       />
                     </div>
@@ -133,7 +133,7 @@
                       v-show="loading"
                       class="spinner-border spinner-border-sm mx-2"
                     ></span>
-                    <span> CREATE EVENT </span>
+                    <span> UPDATE EVENT </span>
                   </button>
                 </div>
               </div>
@@ -172,11 +172,11 @@ export default {
         type: "",
         event_date: "",
         start_time: "",
-        maximum_seats: "",
+        maximun_seats: "",
         location: "",
-        event_id : '',
-        user : JSON.parse(localStorage.getItem("user")),
-        uid : JSON.parse(localStorage.getItem("uid"))
+        // event_id : '',
+        // user : JSON.parse(localStorage.getItem("user")),
+        event_id : JSON.parse(localStorage.getItem("uid"))
         }
     }
   },
@@ -198,16 +198,16 @@ export default {
     this.event.type = this.myEvents.type
     this.event.event_date = this.myEvents.event_date
     this.event.start_time = this.myEvents.start_time
-    this.event.maximum_seats = this.myEvents.maximun_seats
+    this.event.maximun_seats = this.myEvents.maximun_seats
     this.event.location = this.myEvents.location
-    this.event.event_id = this.myEvents.id
+    // this.event.event_id = this.myEvents.id
   },
 
   methods:{
     onUpdateEvent() {
       // let user = JSON.parse(localStorage.getItem("user"));
       this.loading = true
-//       console.log(this.event.uid)
+      console.log(this.event)
 //       if(this.event){
 //       userService.updateEvent(this.event.user, this.event)
 //       .then(() => {

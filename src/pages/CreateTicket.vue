@@ -31,9 +31,9 @@
                         <div class="mb-3">
                           <label for="" class="form-label">Ticket Type</label>
                           <select class="input-theme" v-model="ticketData.type" name="" id="">
-                            <option>Regular</option>
-                            <option>Platinum</option>
-                            <option>Gold</option>
+                            <option>regular</option>
+                            <option>platinum</option>
+                            <option>gold</option>
                           </select>
                         </div>
 
@@ -86,8 +86,6 @@ export default {
   created() {
     userService.getAllEventsUser().then((response) => {
       this.singleEvent = response.data.data.events;
-      // console.log(this.singleEvent);
-      // console.log(this.eventGetter.id)
     });
 
     // userService.deleteEvent(this.deleteData)
@@ -106,7 +104,7 @@ export default {
   },
 
   mounted() {
-    this.ticketData.event_id = this.eventGetter.id;
+    this.ticketData.event_id = this.eventGetter.event_uid;
   },
 
   methods: {

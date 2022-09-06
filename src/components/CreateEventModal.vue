@@ -185,10 +185,9 @@ export default {
   methods: {
     onCreateEvent() {
       this.loading = true;
-      let user = JSON.parse(localStorage.getItem("user"));
-      console.log(user);
-      console.log(this.event.user_id);
-      console.log(this.event.maximum_seats);
+      // let user = JSON.parse(localStorage.getItem("user"));
+      // console.log(this.event);
+      // console.log(this.event.maximun_seats);
 
       if (this.event) {
         userService.createEvent(this.event).then(

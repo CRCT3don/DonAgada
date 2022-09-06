@@ -60,25 +60,25 @@
                   <small class="fw-light d-block mt-4 text-muted">
                     <i class="fa-solid fa-tags"></i>Amount 
                   </small>
-                  <p class="theme fw-bold d-inline font-10 mt-2" v-for="item in eventGetter.ticket" :key="item"> {{ item.type }}: {{ item.amount }} &nbsp;</p>
+                  <p class="text-black fw-bold  mt-2" v-for="item in eventGetter.ticket" :key="item"> {{ item.type }}: {{ item.amount }} </p>
                   <div class="text-black font-14">
-                    <div
+                    <!-- <div
                       v-if="(eventGetter.type = 'paid')"
                       class="text-black font-14"
                     >
                     <label for="amount">Please choose ticket type</label>
-                    <select class="input-theme"  v-model="reservationAmount" name="amount" id="">
+                    <select class="input-theme"  v-model="ticket_type" name="amount" id="">
                         <option v-for="item in eventGetter.ticket" :key="item">
-                           {{ item.amount }}
+                           {{ item.type }}
                         </option>
                       </select>
-                    </div>
-                    <div v-else>
+                    </div> -->
+                    <!-- <div v-else>
                       <p>FREE</p>
-                    </div>
+                    </div> -->
                   </div>
 
-                  <hr />
+                  <!-- <hr />
                   <div class="d-flex col-md-8 justify-content-between">
                     <div class="col-md-6">
                       <p class="text-muted">
@@ -89,25 +89,25 @@
                           >s
                         </span>
                       </p>
-                    </div>
+                    </div> -->
 
-                    <div class="col-md-6">N
+                    <!-- <div class="col-md-6">N
                       <p class="h6 d-inline fw-bolder" v-html="reservationAmount * payload.number_of_reservation"></p>
                     </div>
-                  </div>
+                  </div> -->
 
-                  <div class="d-flex col-md-12 justify-content-between">
+                  <!-- <div class="d-flex col-md-12 justify-content-between">
                     <div class="col-md-8"></div>
 
                     <div class="col-md-4">
                       <input
                         type="number"
-                        v-if="a"
                         class="input-theme"
                         v-model="payload.number_of_reservation"
                       />
                     </div>
-                  </div>
+                    {{payload.number_of_reservation}}
+                  </div> -->
                   <div class="form-group">
                     <div class="" v-if="message" role="alert">
                       <p class="fst-italic text-danger">{{ message }}</p>
@@ -167,10 +167,10 @@ export default {
         event_id: "",
         phone: "0808989809",
         email: " ",
-        ticket_type: "regular",
+        ticket_type: "",
         number_of_reservation: "",
-        reservationAmount: '',
       },
+      reservationAmount: '',
     };
   },
 
@@ -187,6 +187,11 @@ export default {
         (event) => event.id === this.$route.params.id
       );
     },
+    amount() {
+      return this.singleEvent.find(
+        (event) => event.id === this.$route.params.id
+      );
+    },
   },
 
   mounted() {
@@ -194,6 +199,7 @@ export default {
       this.eventGetter.user.first_name + this.eventGetter.user.last_name;
     this.payload.email = this.eventGetter.user.email;
     this.payload.event_id = this.eventGetter.id;
+    this.reservationAmount = this.eventGetter.amount;
   },
 
   methods: {

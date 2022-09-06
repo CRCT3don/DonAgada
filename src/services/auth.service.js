@@ -1,6 +1,6 @@
 import router from "@/router"
 import axiosInstance from "@/services/axiosInstance"
-// import authHeader from "./auth-header"
+import authHeader from "./auth-header"
 // import authHeader from "@/services/auth-header"
 
 class AuthService {
@@ -21,7 +21,7 @@ class AuthService {
        if (localStorage.getItem('user')) {
            localStorage.removeItem('user')
            localStorage.removeItem('uid')
-           return axiosInstance.get('/api/sign-out')
+           return axiosInstance.get('/api/sign-out', {headers: authHeader()} )
         }
     }
 

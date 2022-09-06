@@ -1,6 +1,6 @@
 import router from "@/router"
 import axiosInstance from "@/services/axiosInstance"
-import authHeader from './auth-header'
+// import authHeader from './auth-header'
 
 class UserService {
   
@@ -25,11 +25,15 @@ class UserService {
     }
     
     getMyEvents(){
-        return axiosInstance.get('/api/event/my-events', {headers: authHeader()})
+        return axiosInstance.get('/api/event/my-events', 
+        // {headers: authHeader()}
+        )
     }
     
     getAllEventsUser(){
-        return axiosInstance.get('/api/event', {headers: authHeader()})
+        return axiosInstance.get('/api/event', 
+        // {headers: authHeader()}
+        )
     }
 
     updateEvent(payload){
@@ -49,9 +53,9 @@ class UserService {
       }
 
     async createEvent(payload){
-      await axiosInstance.post('/api/event/create', { 
-        headers: authHeader() },
-        {
+      await axiosInstance.post('/api/event/create', 
+      // { headers: authHeader() },  
+      {
           // event_id: payload.events_id,
           // user_id: JSON.parse(localStorage.getItem("uid")),
           user_id: payload.user_id,
@@ -63,30 +67,35 @@ class UserService {
           description: payload.description,
           start_time: payload.start_time,
           maximun_seats: payload.maximun_seats,
-        })
+        },
+        console.log(payload)
+        )
         return await router.replace('/userpost')
       }
 
     async createTicket(payload){
-      await axiosInstance.post('/api/event/create-ticket', { headers: authHeader() },
+      await axiosInstance.post('/api/event/create-ticket', 
+      // { headers: authHeader() },
         {
           // event_id: payload.events_id,
           // user_id: JSON.parse(localStorage.getItem("uid")),
-          event_uid: payload.event_id,
+          event_id: payload.event_id,
           amount: payload.amount,
           type: payload.type,
-          maximun_reservation: payload.maximun_reservation,
+          maximum_reservation: payload.maximum_reservation,
         })
         return await router.replace('/userpost')
       }
       
       async deleteMyEvents(payload){
-        await axiosInstance.delete('/api/event/delete', {headers: authHeader()},
+        await axiosInstance.delete('/api/event/delete', 
+        // {headers: authHeader()},
         {
-          event_uid: payload.event_id,
+          event_id: payload.event_id,
           event_name: payload.event_name
-
-        })
+        },
+        console.log(payload)
+        )
         return await router.replace('/userpost')
     }
 }

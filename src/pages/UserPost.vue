@@ -188,10 +188,10 @@ export default {
       deleteMessage: "",
       eventDelete: false,
       eventDetails:[],
-      event: {
-        // event_id: this.eventDetails.id,
-        // event_name: this.eventDetails.event_name,
-      }
+      // event: {
+      //   event_id: this.eventDetails.id,
+      //   event_name: this.eventDetails.event_name,
+      // }
     };
   },
   components: { CreateEventModal },
@@ -206,50 +206,12 @@ export default {
     userService.getMyEvents()
     .then(
       (response) => {
-        // console.log(response);
         this.eventDetails = response.data.data.events
-        // if(this.evenDetails){
-        //   for(const items in this.eventDetails){
-        //     console.log(items)
-        //   }
-        // }
       },
       (error) => {
         console.log(error);
       });
-  },
-
-  methods: {
-    deleteEvent() {
-      // this.singleEvent.find(event => event.id === this.$route.params.id) ;
-
-
-    // let deleteId = this.eventDetails.find(event => event.id === this.$route.params.id)
-    // console.log(deleteId)
-      // let deleteId = this.eventDetails.filter(item => {
-      //   console.log(item)
-      //   return item.id
-      // })
-//       let deleteId = this.eventDetails.find((event) => {return event.forEach((e) => {
-//   e.onclick = (e) => console.log(e.id);
-// })})
-
-
-      userService.deleteEvent(this.event)
-      .then((response) => {
-          this.deleteMessage = response.message;
-          this.$router.replace("/userpost");
-          location.reload()
-        },
-        (error) => {
-          this.deleteMessage = error.data;
-          console.log(this.deleteMessage)
-          this.loading = false
-          window.stop()
-        }
-      );
     },
-  },
 };
 </script>
 
