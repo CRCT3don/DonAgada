@@ -17,6 +17,9 @@
       </div>
     </div>-->
 
+    <div v-if="loading">
+      <Spinner />
+    </div>
     <article class="row mb-3">
       <div class="col-md-12 m-auto">
         <div class="container" >
@@ -72,13 +75,19 @@
 // import { onMounted, reactive } from "@vue/runtime-core";
 
 import userService from '@/services/user.service';
+import Spinner from '@/components/Spinner.vue';
 
 export default {
   name: "BlogPost-vue",
 
+  components:{
+    Spinner,
+  },
+
   data() {
     return {
-      event_details: []
+      event_details: [],
+      loading : true
     };
   },
 
@@ -87,6 +96,7 @@ export default {
     .then((response) => {
       // console.log(response)
       this.event_details = response.data.data.events
+      this.loading=false
     }, 
     error => {
       console.log(error)

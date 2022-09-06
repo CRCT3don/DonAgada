@@ -12,15 +12,8 @@
           <li class="nav-item active">
             <router-link class="nav-link gray-4" to="/">Home <span class="visually-hidden">(current)</span></router-link>
           </li>
-          <li class="nav-item dropdown visually hidden">
-            <a class="nav-link dropdown-toggle gray-4" href="#" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Explore Events</a>
-            <div class="dropdown-menu" aria-labelledby="dropdownId">
-              <a class="dropdown-item gray-4" href="#" >Action 1</a>
-              <a class="dropdown-item gray-4" href="#">Action 2</a>
-            </div>
-          </li>
           <li class="nav-item">
-            <a class="nav-link gray-4" href="#">Print Invoice</a>
+            <router-link to="/printinvoice" class="nav-link gray-4">Print Invoice</router-link>
           </li>
         </ul>
         <div class="d-flex my-2 my-lg-0">

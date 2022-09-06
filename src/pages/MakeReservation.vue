@@ -7,6 +7,11 @@
           <router-link to="/" class="text-decoration-none p-4 font-18 theme">
             &lt; Back
           </router-link>
+
+          <div v-if="spinner">
+            <Spinner />
+          </div>
+          
           <div class="card bg-dark bg-opacity-10 border-0 p-4 m-auto">
             <div class="row gap-md-5 gap-sm-4 p-5 m-auto">
               <div
@@ -29,9 +34,7 @@
                   <div class="mb-3">
                     <p class="card-title h6 theme fw-bolder">Event Details</p>
                   </div>
-                  <small class="fw-light text-muted"
-                    >Event Organizer
-                  </small>
+                  <small class="fw-light text-muted">Event Organizer </small>
                   <p class="card-text text-black font-14 fw-bolder">
                     {{ eventGetter.user.first_name }}
                     {{ eventGetter.user.last_name }}
@@ -58,11 +61,17 @@
                     </p>
                   </div>
                   <small class="fw-light d-block mt-4 text-muted">
-                    <i class="fa-solid fa-tags"></i>Amount 
+                    <i class="fa-solid fa-tags"></i>Amount
                   </small>
-                  <p class="text-black fw-bold  mt-2" v-for="item in eventGetter.ticket" :key="item"> {{ item.type }}: {{ item.amount }} </p>
-                  <div class="text-black font-14">
-                    <!-- <div
+                  <p
+                    class="text-black fw-bold mt-2"
+                    v-for="item in eventGetter.ticket"
+                    :key="item"
+                  >
+                    {{ item.type }}: {{ item.amount }}
+                  </p>
+                  <!--   <div class="text-black font-14">
+                    <div
                       v-if="(eventGetter.type = 'paid')"
                       class="text-black font-14"
                     >
@@ -72,11 +81,11 @@
                            {{ item.type }}
                         </option>
                       </select>
-                    </div> -->
-                    <!-- <div v-else>
+                    </div>
+                    <div v-else>
                       <p>FREE</p>
-                    </div> -->
-                  </div>
+                    </div> 
+                  </div>-->
 
                   <!-- <hr />
                   <div class="d-flex col-md-8 justify-content-between">
@@ -91,7 +100,7 @@
                       </p>
                     </div> -->
 
-                    <!-- <div class="col-md-6">N
+                  <!-- <div class="col-md-6">N
                       <p class="h6 d-inline fw-bolder" v-html="reservationAmount * payload.number_of_reservation"></p>
                     </div>
                   </div> -->
@@ -121,17 +130,152 @@
                   >
                     <button
                       class="button-theme-2 text-decoration-none"
-                      :disabled="loading"
-                      type="submit"
-                      @click.prevent="handleReservation"
+                      type="button"
+                      data-bs-toggle="modal"
+                      data-bs-target="#staticBackdropLive"
                     >
-                      <span
-                        v-show="loading"
-                        class="spinner-border spinner-border-sm"
-                      ></span>
-                      <span>MAKE RESERVATION</span>
+                      MAKE RESERVATION
                     </button>
                   </div>
+
+                  <!-- MODAL CONTENT -->
+
+                  <div
+                    class="modal fade"
+                    id="staticBackdropLive"
+                    data-bs-backdrop="static"
+                    data-bs-keyboard="false"
+                    tabdindex="-1"
+                    aria-labelledby="staticBackdropLiveLabel"
+                    aria-hidden="true"
+                  >
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5
+                            class="modal-title theme fw-normal fs-4"
+                            id="staticBackdropLiveLabel"
+                          >
+                            MAKE RESERVATION
+                          </h5>
+
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+
+                        <div class="form-group">
+                          <div class="alert alert-danger" v-if="message" role="alert">
+                            <div v-for="error in message" :key="error">
+                              <li>{{ error.toString() }}</li>
+                            </div>
+                            <!-- {{message}} -->
+                          </div>
+                        </div>
+
+                        <div class="modal-body">
+                          <form>
+                            <div class="mb-4">
+                              <label>Name</label>
+                              <input
+                                type="text"
+                                v-model="reserve.name"
+                                class="input-theme"
+                                placeholder="Your full name"
+                              />
+                            </div>
+                            <div class="mb-3">
+                              <label>Telephone number</label>
+                              <input
+                                type="tel"
+                                v-model="reserve.phone"
+                                class="input-theme"
+                                placeholder="08100000000"
+                              />
+                            </div>
+                            <div class="mb-3">
+                              <label>Email</label>
+                              <input
+                                type="email"
+                                v-model="reserve.email"
+                                class="input-theme"
+                                placeholder="example@example.com"
+                              />
+                            </div>
+                            <div class="mb-3">
+                              <label>Ticket type</label>
+                              <p class="theme font-10 fw-bold my-2 d-inline"
+                              v-for="item in eventGetter.ticket"
+                              :key="item"
+                            >
+                              {{ item.type }}: {{ item.amount }} &nbsp;
+                            </p>
+                              <select class="input-theme"  v-model="reserve.ticket_type" name="amount" id="">
+                                <option v-for="item in eventGetter.ticket" :key="item">
+                                   {{ item.type }}
+                                </option>
+                                {{reserve.ticket_type}}
+                              </select>
+                          {{ reserve.ticket_type }}
+                            </div>
+                            <div class="mb-3">
+                              <label>Number of tickets</label>
+                              <input
+                                type="number"
+                                v-model="reserve.number_of_reservation"
+                                class="input-theme"
+                                placeholder="000"
+                              />
+                            </div>
+                          </form>
+                          {{ reservationAmount }}
+                          <hr />
+                          <div class="d-flex col-md-8 justify-content-between">
+                            <div class="col-md-6">
+                              <p class="text-muted">
+                                <span v-if="reserve.number_of_reservation">
+                                  {{ reserve.number_of_reservation }}</span
+                                >x Ticket<span
+                                  v-show="reserve.number_of_reservation > 1"
+                                  >s
+                                </span>
+                              </p>
+                            </div>
+
+                            <!-- <div class="col-md-6">
+                              N
+                              <p
+                                class="h6 d-inline fw-bolder"
+                                v-html="
+                                  reservationAmount *
+                                  reserve.number_of_reservation
+                                "
+                              ></p>
+                            </div> -->
+                          </div>
+                        </div>
+                        <div class="modal-footer m-auto text-center">
+                          <button
+                            type="button"
+            :disabled="loading"
+            class="button-theme-2 text-white shadow-none"
+                            @click.prevent="handleReservation()"
+                          >
+                          <span
+                          v-show="loading"
+                          class="spinner-border spinner-border-sm mx-2"
+                        ></span>
+                            Proceed
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- MODAL END -->
                 </div>
               </div>
             </div>
@@ -146,6 +290,7 @@
 <script>
 import Header from "../components/Header.vue";
 import Footer from "@/components/Footer.vue";
+import Spinner from "@/components/Spinner.vue";
 import userService from "@/services/user.service";
 
 export default {
@@ -154,6 +299,7 @@ export default {
   components: {
     Header,
     Footer,
+    Spinner,
   },
 
   data() {
@@ -161,23 +307,24 @@ export default {
       allEvents: userService.getAllEvents(),
       singleEvent: [],
       loading: false,
-      message: " ",
-      payload: {
+      spinner: true,
+      message: "",
+      reserve: {
         name: "",
         event_id: "",
-        phone: "0808989809",
+        phone: "",
         email: " ",
         ticket_type: "",
         number_of_reservation: "",
       },
-      reservationAmount: '',
+      reservationAmount: "",
     };
   },
 
   created() {
     this.allEvents.then((response) => {
       this.singleEvent = response.data.data.events;
-      console.log(this.singleEvent);
+      // console.log(this.singleEvent);
     });
   },
 
@@ -187,38 +334,29 @@ export default {
         (event) => event.id === this.$route.params.id
       );
     },
-    amount() {
-      return this.singleEvent.find(
-        (event) => event.id === this.$route.params.id
-      );
-    },
   },
 
   mounted() {
-    this.payload.name =
-      this.eventGetter.user.first_name + this.eventGetter.user.last_name;
-    this.payload.email = this.eventGetter.user.email;
-    this.payload.event_id = this.eventGetter.id;
-    this.reservationAmount = this.eventGetter.amount;
+    this.reserve.event_id = this.eventGetter.event_uid;
+    this.spinner = false
   },
 
   methods: {
     handleReservation() {
+      // console.log(this.reserve)
       this.loading = true;
-      if (this.payload) {
-        userService.makeReservation(this.payload).then(
-          () => {},
+      if (this.reserve) {
+        userService.makeReservation(this.reserve).then(
+          () => {
+            location.reload()
+          },
           (error) => {
             this.loading = false;
             this.message = error.response.data.message;
+            window.stop()
           }
         );
       }
-      // else {
-      //       this.message = 'Error occured!'
-      //   // alert('error')
-      //   this.loading = false
-      //   }
     },
   },
 };

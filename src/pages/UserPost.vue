@@ -17,19 +17,15 @@
       </div>
     </div>-->
 
-        <div v-if="deleteMessage" class="alert alert-success alert-dismissible fade show" role="alert">
-          Event Deleted
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>
 
       <article class="row my-3">
         <div class="col-md-10 m-auto">
           <div class="container">
             <!-- <div class="row" v-for="item in blogPost.details" :key="item.description"> -->
+              <div v-if="spinner">
+                <Spinner />
+              </div>
             <div class="row">
- 
-
-
               <!-- REAL CONTENT -->
               <section class="col-md-6 m-auto"  v-for="items in eventDetails" :key="items">
                 <div class="card border-0 shadow-sm my-2">
@@ -43,78 +39,6 @@
                     </div>
                     <div class="col-md-8 gap-0">
                       <div class="card-body">
-                        <!-- <div class="bg-accent del text-white badge">
-                          <button
-                            type="button"
-                            data-bs-toggle="modal"
-                            data-bs-target="#staticBackdropLive"
-                            class="font-10 btn-sm btn text-decoration-none shadow-none text-white"
-                          >
-                            del
-                          </button>
-                        </div>
-                        <div class="bg-theme edit text-white badge">
-                          <router-link
-                            :to="`/mysingleevent/${items.id}`"
-                            class="font-10 text-decoration-none text-white"
-                            >edit</router-link
-                          >
-                        </div> -->
-
-                        <!-- MODAL CONTENT -->
-
-                        <!-- <div
-                          class="modal fade"
-                          id="staticBackdropLive"
-                          data-bs-backdrop="static"
-                          data-bs-keyboard="false"
-                          tabdindex="-1"
-                          aria-labelledby="staticBackdropLiveLabel"
-                          aria-hidden="true"
-                        >
-                          <div class="modal-dialog">
-                            <div class="modal-content">
-                              <div class="modal-header">
-                                <h5
-                                  class="modal-title theme fw-bolder"
-                                  id="staticBackdropLiveLabel"
-                                >
-                                  Are you sure you want to delete?
-                                </h5>
-                                <button
-                                  type="button"
-                                  class="btn-close"
-                                  data-bs-dismiss="modal"
-                                  aria-label="Close"
-                                ></button>
-                              </div>
-                              <div class="modal-body">
-                                <p class="fw-bolder fs-5 fst-italic accent">
-                                  Action cannot be undone!
-                                </p>
-                              </div>
-                              <div class="modal-footer">
-                                <button
-                                  type="button"
-                                  class="btn btn-sm btn-outline-danger shadow-none"
-                                  data-bs-dismiss="modal"
-                                >
-                                  Cancel
-                                </button>
-                                <button
-                                  type="button"
-                                  class="btn bg-danger text-white shadow-none"
-                                  @click.prevent="deleteEvent()"
-                                >
-                                  Confirm
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div> -->
-
-                        <!-- MODAL END -->
-
                         <div class="col-md-12">
                           <small class="fw-light text-muted">  Title</small>
                           <router-link :to="`/myevent/${items.id}`" class="card-title d-block text-decoration-none theme fw-bolder">
@@ -179,7 +103,9 @@
 
 <script>
 import CreateEventModal from "@/components/CreateEventModal.vue";
+import Spinner from "@/components/Spinner.vue";
 import userService from "@/services/user.service";
+
 
 export default {
   name: "BlogPost-vue",
@@ -188,13 +114,17 @@ export default {
       deleteMessage: "",
       eventDelete: false,
       eventDetails:[],
+      spinner: true,
       // event: {
       //   event_id: this.eventDetails.id,
       //   event_name: this.eventDetails.event_name,
       // }
     };
   },
-  components: { CreateEventModal },
+  components: { 
+    CreateEventModal,
+    Spinner
+  },
 
   computed: {
     loggedIn() {
@@ -207,6 +137,7 @@ export default {
     .then(
       (response) => {
         this.eventDetails = response.data.data.events
+        this.spinner = false
       },
       (error) => {
         console.log(error);

@@ -6,6 +6,9 @@
       <router-link to="/" class="text-decoration-none p-4 text-white">
         &lt; Back
       </router-link>
+      <div v-if="spinner">
+        <Spinner />
+      </div>
       <div class="text-white d-none col-md-6 pt-4 m-auto">
         <p>{{ myEvents.id }}</p>
         <p>{{ myEvents.event_name }}</p>
@@ -150,6 +153,7 @@
 import userService from '@/services/user.service';
 import HeaderUser from "../components/HeaderUser.vue";
 import Footer from "@/components/Footer.vue";
+import Spinner from "@/components/Spinner.vue";
 import axiosInstance from '@/services/axiosInstance';
 
 export default {
@@ -158,6 +162,7 @@ export default {
   components: {
     HeaderUser,
     Footer,
+    Spinner
   },
 
   data(){
@@ -165,6 +170,7 @@ export default {
       service: userService.getMyEvents(),
       singleEvent: [],
       loading: false,
+      spinner: true,
       message: '',
       messages: '',
       event: {
@@ -184,6 +190,7 @@ export default {
   created(){
       this.service.then(response => {
       this.singleEvent = response.data.data.events
+      this.spinner = false
     })
   },
 

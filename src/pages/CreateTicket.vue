@@ -7,6 +7,9 @@
           <router-link to="/" class="text-decoration-none p-4 font-18 theme">
             &lt; Back
           </router-link>
+          <div v-if="spinner">
+            <Spinner />
+          </div>
           <div class="card bg-dark bg-opacity-10 border-0 p-4">
               <div 
                 class=" border-0 rounded-3 shadow-sm bg-light m-3 p-5"
@@ -20,8 +23,17 @@
                     {{ eventGetter.event_date }} - {{ eventGetter.start_time }}
                   </p>
 
-                  <div>
-
+                  <div class="form-group">
+                    <div class="text-danger" v-if="errorMessage" role="alert">
+                      <div v-for="error in errorMessage" :key="error">
+                        <li>{{ error.toString() }}</li>
+                      </div>
+                    </div>
+                      <div>
+                      <p v-if="message" class="text-danger">
+                        {{ message }}
+                      </p>
+                    </div>
                   </div>
 
                   <div class="row">
@@ -46,13 +58,18 @@
                           <label for="" class="form-label"> {{ticketData.type}} Ticket Amount</label>
                           <input type="number" v-model="ticketData.amount" class="input-theme" name="" id="" placeholder="enter figure only">
                         </div>
-                        <button class="button-theme-2" @click.prevent="handleTicket">
+                        <button class="button-theme-2" 
+            :disabled="loading"
+            @click.prevent="handleTicket">
+            <span
+            v-show="loading"
+            class="spinner-border spinner-border-sm mx-2"
+          ></span>
                           ADD TICKET
                         </button>
                       </div>
                     </div>
                   </div>
-
               </div>
           </div>
         </section>
@@ -66,6 +83,7 @@
 import userService from "@/services/user.service";
 import Footer from "@/components/Footer.vue";
 import HeaderUser from "@/components/HeaderUser.vue";
+import Spinner from "@/components/Spinner.vue";
 
 export default {
   name: "CreateTicket-vue",
@@ -78,14 +96,19 @@ export default {
         amount: '',
         maximum_reservation: '',
       },
+      spinner: true,
+      loading: false,
+      errorMessage: [],
+      message: '',
     };
   },
 
-  components: { Footer, HeaderUser },
+  components: { Footer, Spinner, HeaderUser },
 
   created() {
     userService.getAllEventsUser().then((response) => {
       this.singleEvent = response.data.data.events;
+      this.spinner = false
     });
 
     // userService.deleteEvent(this.deleteData)
@@ -109,6 +132,7 @@ export default {
 
   methods: {
     handleTicket() {
+      this.loading = true
       // if (this.ticketdata) {
         userService.createTicket(this.ticketData, this.eventGetter.id).then(
           () => {
@@ -116,8 +140,11 @@ export default {
           },
           (error) => {
             console.log(error);
-          }
-          );
+            this.errorMessage = error.response.data.errors
+            this.message = error.response.data.message.toString()
+            console.log(error.response.data.message.toString())
+            this.loading = false
+          });
       // } 
       // this.singleEvent.find(event => event.id === this.$route.params.id) ;
 

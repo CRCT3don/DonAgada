@@ -1,7 +1,7 @@
 <template>
   <div>
   <Header />
-    <HeroLanding />
+  <HeroLanding />
     <VisitorPost />
     <Footer />
   </div>
@@ -20,7 +20,7 @@ export default {
     HeroLanding,
     VisitorPost,
     Header,
-    Footer
+    Footer,
 },
 
 computed: {

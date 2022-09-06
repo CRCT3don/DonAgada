@@ -47,7 +47,7 @@
                   </li>
                   <li class="list-unstyled">
                     <router-link
-                      to="/"
+                      to="/printinvoice"
                       class="nav-link text-white fw-light"
                       >Print Ticket
                     </router-link>

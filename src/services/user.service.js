@@ -17,9 +17,9 @@ class UserService {
         ticket_type: payload.ticket_type,
         number_of_reservation : payload.number_of_reservation
       })
-      .then(() => {
-        router.replace('/printinvoice')
-      }) 
+      // .then(() => {
+      //   router.replace('/printinvoice')
+      // }) 
       // .catch(error => console.log(error))
     //  return response.data
     }

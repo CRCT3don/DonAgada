@@ -7,6 +7,9 @@
           <router-link to="/" class="text-decoration-none p-4 font-18 theme">
             &lt; Back
           </router-link>
+          <div v-if="spinner">
+            <Spinner />
+          </div>
           <div class="card bg-dark bg-opacity-10 border-0 p-4">
             <div class="row gap-sm-4 p-5 m-auto">
               <div
@@ -184,6 +187,7 @@
 <script>
 import userService from "@/services/user.service";
 import Footer from "@/components/Footer.vue";
+import Spinner from "@/components/Spinner.vue";
 import HeaderUser from "@/components/HeaderUser.vue";
 
 export default {
@@ -193,6 +197,7 @@ export default {
       singleEvent: [],
       allEvents: "",
       eventDelete: "",
+      spinner: true,
       deleteData: {
         event_id: "",
         event_name: "",
@@ -200,19 +205,13 @@ export default {
     };
   },
 
-  components: { Footer, HeaderUser },
+  components: { Footer, HeaderUser, Spinner },
 
   created() {
     userService.getAllEventsUser().then((response) => {
       this.singleEvent = response.data.data.events;
       console.log(this.singleEvent);
     });
-
-    // userService.deleteEvent(this.deleteData)
-    // .then((response) => {
-    //   this.singleEvent = response.data.data.events;
-    //   console.log(this.singleEvent);
-    // })
   },
 
   computed: {
@@ -225,6 +224,7 @@ export default {
 
   mounted() {
     this.deleteData.event_id = this.eventGetter.event_uid;
+    this.spinner = false
     // this.deleteData.event_name = this.eventGetter.event_name;
   },
 

@@ -20,13 +20,13 @@
             </div>
           </li>
           <li class="nav-item">
-            <a class="nav-link gray-4" href="#">Print Invoice</a>
+            <router-link to="/printinvoice" class="nav-link gray-4">Print Invoice</router-link>
           </li>
         </ul>
         <div class="d-flex justify-content-between align-items-center my-2 my-lg-0">
     
         <button class="button-theme-2 mx-1" type="button" data-bs-toggle="modal" data-bs-target="#createEvent"> <i class="fa-solid fa-calendar-days ms-w1 mx-1"></i>  CREATE EVENT </button>
-          <div class="nav-item dropdown visually hidden">
+          <div class="nav-item dropdown ">
             <router-link class="nav-link dropdown-toggle gray-4" to="/" id="dropdownId" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <img src="../assets/img/logoIcon/avatar.png" alt="" class="img-fluid avatar"></router-link>
             <div class="dropdown-menu" aria-labelledby="dropdownId">
               <button class="dropdown-item gray-4" @click="handleSignOut">SignOut</button>
@@ -36,12 +36,19 @@
       </div>
     </div>
   </nav>
+  <CreateEventModal />
   </header>
 </template>
 
 <script>
+import CreateEventModal from "@/components/CreateEventModal.vue";
+
 export default {
   name: "HeaderUser-vue",
+
+  components: {
+    CreateEventModal,
+  },
 
   methods: {
      handleSignOut(){

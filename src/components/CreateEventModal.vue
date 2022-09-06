@@ -192,8 +192,9 @@ export default {
       if (this.event) {
         userService.createEvent(this.event).then(
           () => {
-            this.$router.replace("/userpost");
+            // this.$router.replace("/userpost");
             location.reload();
+            this.$router.replace("/myevent/createticket/:id");
           },
           (error) => {
             this.messages = error.response.data.errors;

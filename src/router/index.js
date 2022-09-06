@@ -10,7 +10,7 @@ import CreateTicket from '../pages/CreateTicket.vue'
 import MakeReservation from '../pages/MakeReservation.vue'
 import PrintInvoice from '../pages/PrintInvoice.vue'
 import Test from '../pages/Test.vue'
-import UpdateEvent from '../pages/UpdateEvent.vue'
+import UpdateEvent from '../del/UpdateEvent.vue'
 
 //OPTIMIZED LOADING
 // const HomeView = () => import ('../views/HomeView.vue')
