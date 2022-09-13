@@ -25,11 +25,13 @@ class AuthService {
         }
     }
 
-    // autoLogout(){
-    //     setTimeout(() => {
-    //         this.logout
-    //     }, 10000);
-    // }
+    autoLogout(){
+        setTimeout(() => {
+            localStorage.removeItem('user')
+            localStorage.removeItem('uid')
+            return axiosInstance.get('/api/sign-out', {headers: authHeader()} )
+        }, 10000);
+    }
     
     async register(user){
         const response = await axiosInstance.post('/api/register',

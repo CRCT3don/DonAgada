@@ -210,7 +210,7 @@ export default {
   created() {
     userService.getAllEventsUser().then((response) => {
       this.singleEvent = response.data.data.events;
-      console.log(this.singleEvent);
+      // console.log(this.singleEvent);
     });
   },
 
@@ -224,13 +224,13 @@ export default {
 
   mounted() {
     this.deleteData.event_id = this.eventGetter.event_uid;
+    this.deleteData.event_name = this.eventGetter.event_name;
     this.spinner = false
-    // this.deleteData.event_name = this.eventGetter.event_name;
   },
 
   methods: {
     handleDelete() {
-      // console.log(this.deleteData)
+      console.log(this.deleteData)
       // if (this.deleteData.event_id) {
         userService.deleteMyEvents(this.deleteData)
         .then(

@@ -20,6 +20,10 @@
     <div v-if="loading">
       <Spinner />
     </div>
+
+    <div v-if="emptyState">
+      <Empty />
+    </div>
     <article class="row mb-3">
       <div class="col-md-12 m-auto">
         <div class="container" >
@@ -76,18 +80,21 @@
 
 import userService from '@/services/user.service';
 import Spinner from '@/components/Spinner.vue';
+import Empty from '@/components/Empty.vue';
 
 export default {
   name: "BlogPost-vue",
 
   components:{
     Spinner,
-  },
+    Empty
+},
 
   data() {
     return {
       event_details: [],
-      loading : true
+      loading : true,
+      emptyState : false,
     };
   },
 
@@ -96,7 +103,8 @@ export default {
     .then((response) => {
       // console.log(response)
       this.event_details = response.data.data.events
-      this.loading=false
+      this.loading = false
+      if(this.event_details.length === 0) this.emptyState = true
     }, 
     error => {
       console.log(error)

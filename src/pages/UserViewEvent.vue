@@ -154,7 +154,7 @@ import userService from '@/services/user.service';
 import HeaderUser from "../components/HeaderUser.vue";
 import Footer from "@/components/Footer.vue";
 import Spinner from "@/components/Spinner.vue";
-import axiosInstance from '@/services/axiosInstance';
+// import axiosInstance from '@/services/axiosInstance';
 
 export default {
   name: "UserViewEvent-vue",
@@ -175,14 +175,14 @@ export default {
       messages: '',
       event: {
         event_name: '',
+        oldName: '',
+        // newName: '',
         type: "",
         event_date: "",
         start_time: "",
         maximun_seats: "",
-        location: "",
-        // event_id : '',
-        // user : JSON.parse(localStorage.getItem("user")),
-        event_id : JSON.parse(localStorage.getItem("uid"))
+        location: "", 
+        event_id : "",
         }
     }
   },
@@ -201,64 +201,83 @@ export default {
   },
 
   mounted(){
+    this.event.oldName = this.myEvents.event_name
     this.event.event_name = this.myEvents.event_name
+    this.event.event_id = this.myEvents.event_uid
     this.event.type = this.myEvents.type
     this.event.event_date = this.myEvents.event_date
     this.event.start_time = this.myEvents.start_time
     this.event.maximun_seats = this.myEvents.maximun_seats
     this.event.location = this.myEvents.location
-    // this.event.event_id = this.myEvents.id
   },
+
+  // watch: {
+  //   event_name(oldName, newName){
+  //     if(oldName === newName){
+  //     this.event.event_name === ''
+  //  } else {
+  //   this.event
+  //  } 
+
+  // }
+  // },
 
   methods:{
     onUpdateEvent() {
       // let user = JSON.parse(localStorage.getItem("user"));
+
+
       this.loading = true
       console.log(this.event)
-//       if(this.event){
-//       userService.updateEvent(this.event.user, this.event)
-//       .then(() => {
+      if(this.event.event_name === this.event.oldName) {
+        // this.event.event_name = ''
+        delete this.event.event_name
+      }
 
-//       },
-//       error => {
-//         this.loading = false
-//         this.message = error.response.data.message.toString()
-//       })
-// }
+      if(this.event){
+      userService.updateEvent(this.event)
+      .then(() => {
+
+      },
+      error => {
+        this.loading = false
+        this.message = error.response.data.message.toString()
+      })
+}
       
-      let user = JSON.parse(localStorage.getItem("user"));
+      // let user = JSON.parse(localStorage.getItem("user"));
       // let uid = JSON.parse(localStorage.getItem("uid"));
 
 
-      const options = {
-        method: "POST",
-        url: "/api/event/update",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user}`,
-        },
-        data: this.event,
-      };
+    //   const options = {
+    //     method: "POST",
+    //     url: "/api/event/update",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       Authorization: `Bearer ${user}`,
+    //     },
+    //     data: this.event,
+    //   };
 
-      axiosInstance
-        .request(options)
-        .then((response) => {
-          console.log(response.data);
-          this.message = response.data.status
-          if(response.data.status === 'Success'){
-          this.$router.replace("/userpost");
-        }
-      })
-        .catch((error) => {
-          console.error(error);
-          this.messages = error.response.data.errors
-          this.message = error.response.data.message.toString()
-          this.loading = false;
-        });
+    //   axiosInstance
+    //     .request(options)
+    //     .then((response) => {
+    //       console.log(response.data);
+    //       this.message = response.data.status
+    //       if(response.data.status === 'Success'){
+    //       this.$router.replace("/userpost");
+    //     }
+    //   })
+    //     .catch((error) => {
+    //       console.error(error);
+    //       this.messages = error.response.data.errors
+    //       this.message = error.response.data.message.toString()
+    //       this.loading = false;
+    //     });
     }
   },
 
-};
+}
 </script>
 
 <style scoped>

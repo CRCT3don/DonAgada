@@ -39,7 +39,7 @@ class UserService {
     updateEvent(payload){
         return axiosInstance.post('/api/event/update', {
           // headers: authHeader()}, {
-          headers: payload.user}, {
+          // headers: payload.user}, {
           event_id: payload.event_id,
           event_name: payload.event_name,
           location: payload.location,
@@ -88,13 +88,13 @@ class UserService {
       }
       
       async deleteMyEvents(payload){
-        await axiosInstance.delete('/api/event/delete', 
+        await axiosInstance.post('/api/event/delete', 
         // {headers: authHeader()},
         {
           event_id: payload.event_id,
           event_name: payload.event_name
         },
-        console.log(payload)
+        // console.log(payload)
         )
         return await router.replace('/userpost')
     }

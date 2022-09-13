@@ -18,12 +18,15 @@
     </div>-->
 
 
-      <article class="row my-3">
+      <article class="row my-5">
         <div class="col-md-10 m-auto">
           <div class="container">
             <!-- <div class="row" v-for="item in blogPost.details" :key="item.description"> -->
               <div v-if="spinner">
                 <Spinner />
+              </div>
+              <div v-if="emptyState">
+                <Empty />
               </div>
             <div class="row">
               <!-- REAL CONTENT -->
@@ -105,6 +108,7 @@
 import CreateEventModal from "@/components/CreateEventModal.vue";
 import Spinner from "@/components/Spinner.vue";
 import userService from "@/services/user.service";
+import Empty from "@/components/Empty.vue";
 
 
 export default {
@@ -115,16 +119,18 @@ export default {
       eventDelete: false,
       eventDetails:[],
       spinner: true,
+      emptyState: false,
       // event: {
       //   event_id: this.eventDetails.id,
       //   event_name: this.eventDetails.event_name,
       // }
     };
   },
-  components: { 
+  components: {
     CreateEventModal,
-    Spinner
-  },
+    Spinner,
+    Empty
+},
 
   computed: {
     loggedIn() {
@@ -136,7 +142,11 @@ export default {
     userService.getMyEvents()
     .then(
       (response) => {
+        // console.log(response)
+        if(response.data.data.events.length === 0) this.emptyState = true
+
         this.eventDetails = response.data.data.events
+        // console.log(this.eventDeatils)
         this.spinner = false
       },
       (error) => {
