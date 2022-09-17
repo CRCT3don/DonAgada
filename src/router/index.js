@@ -8,6 +8,7 @@ import UserViewEvent from '../pages/UserViewEvent.vue'
 import UserEventsSingle from '../pages/UserEventsSingle.vue'
 import CreateTicket from '../pages/CreateTicket.vue'
 import MakeReservation from '../pages/MakeReservation.vue'
+import Validate from '../pages/Validate.vue'
 import PrintInvoice from '../pages/PrintInvoice.vue'
 import Test from '../pages/Test.vue'
 import UpdateEvent from '../del/UpdateEvent.vue'
@@ -89,6 +90,12 @@ const routes = [
     path: '/makereservation/:id',
     name: 'makereservation',
     component: MakeReservation,
+    meta: {auth: false}
+  },
+  { 
+    path: '/validate',
+    name: 'validate',
+    component: Validate,
     meta: {auth: false}
   },
   { 

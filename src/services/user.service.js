@@ -15,7 +15,25 @@ class UserService {
         phone: payload.phone,
         email: payload.email,
         ticket_type: payload.ticket_type,
-        number_of_reservation : payload.number_of_reservation
+        number_of_reservation : payload.number_of_reservation,
+        calback_url: payload.callback_url
+      })
+      // .then(() => {
+      //   router.replace('/printinvoice')
+      // }) 
+      // .catch(error => console.log(error))
+    //  return response.data
+    }
+
+    validatePayment(payload){
+        return axiosInstance.post('/api/reservation', {
+        name: payload.name,    
+        event_id: payload.event_id,
+        phone: payload.phone,
+        email: payload.email,
+        ticket_type: payload.ticket_type,
+        number_of_reservation : payload.number_of_reservation,
+        calback_url: payload.callback_url
       })
       // .then(() => {
       //   router.replace('/printinvoice')

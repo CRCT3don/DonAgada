@@ -1,30 +1,22 @@
 <template>
   <div>
     <Header />
-    <div class="mt-5">
-      <section class="bg-white pt-5 my-5">
-        <div class="m-auto">
-          <p class="h5 theme fw-bolder text-center">Get your invoice</p>
-          <p class="text-muted font-18 fw-bolder fst-italic text-center">
-            Enter your tickect ID below
-          </p>
-          <div class="m-auto col-md-6">
-            <div class="row align-items-center">
-              <div class="m-auto col-md-7 mt-3">
-                <input type="text" class="input-theme" />
-              </div>
-              <div class="m-auto col-md-5">
-                <router-link to="/" class="button-theme-2"
-                  >Get Reservation Info
-                </router-link>
-              </div>
-            </div>
+    
+    
+    <div v-if="spinner" class="my-5 py-5 col-md-6 m-auto">
+      <div class="card my-3 border-0">
+        <img src="../assets/img/spinner.gif" class="card-img"/>
+          <div class="card-img-overlay m-auto">
+            <span class="h6 theme fst-italic m-auto text-center">Validating your payment...</span>
           </div>
         </div>
-      </section>
-
-      <section class="col-md-8 m-auto mb-5 border-bottom-dash pb-5">
+      </div>
+      
+      <div class="my-5 " v-if="!spinner">
+      <section class="col-md-8 m-auto mb-5 border-bottom-dash py-5 my-5 px-md-1">
         <div class="border-0">
+          <!-- <p>reference no = {{reference}}</p> -->
+
           <div class="card-header overlay p-2 shadow">
             <img
               src="../assets/img/logoIcon/eventXLogo.png"
@@ -124,31 +116,62 @@
         </section>
       </div>
     </div>
-    <!-- <Footer /> -->
+    <Footer />
   </div>
 </template>
 
 <script>
-// import axios from 'axios';
-// import axiosInstance from '@/services/axiosInstance';
 import Header from "../components/Header.vue";
-// import Footer from "@/components/Footer.vue";
+import Footer from "@/components/Footer.vue";
+import userService from "@/services/user.service";
+
 
 export default {
-  name: "PrintInvoice-vue",
+  name: "Validate-vue",
 
   components: {
     Header,
-    // Footer,
+    Footer,
   },
 
   data() {
-    return {};
+    return {
+      reference: '',
+      spinner: false
+    };
   },
+
+  created() {
+    let params = window.location.href.split("reference")[1].split("=").join("")
+    this.reference = params
+    console.log(this.reference)
+  },
+
+  mounted(){
+    if(this.reference) {
+      this.spinner = true
+    userService.validatePayment(this.reference)
+    .then(() => {
+      this.router.replace('/printinvoice')
+    }, 
+    (error) => {
+      console.log(error)
+    })
+      
+    }
+  }
 };
 </script>
 
 <style scoped>
+.spinner-bg {
+  background-image: url("../assets/img/spinner.gif");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-blend-mode: soft-light;
+}
+
 .overlay {
   background-image: url("../assets/img/bg/LoginBg.png");
   background-size: cover;
@@ -164,4 +187,6 @@ export default {
 .border-bottom-dash {
   border-bottom: 2px dashed #6e736e;
 }
+
+
 </style>

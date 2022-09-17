@@ -169,10 +169,10 @@
 
                         <div class="form-group">
                           <div class="alert alert-danger" v-if="message" role="alert">
-                            <div v-for="error in message" :key="error">
+                            <!-- <div v-for="error in message" :key="error">
                               <li>{{ error.toString() }}</li>
-                            </div>
-                            <!-- {{message}} -->
+                            </div> -->
+                            {{message}}
                           </div>
                         </div>
 
@@ -316,6 +316,7 @@ export default {
         email: " ",
         ticket_type: "",
         number_of_reservation: "",
+        callback_url: ""
       },
       reservationAmount: "",
     };
@@ -326,6 +327,11 @@ export default {
       this.singleEvent = response.data.data.events;
       // console.log(this.singleEvent);
     });
+
+    if (location.hostname === "localhost"){
+    this.reserve.callback_url = `${location.protocol}//${location.hostname}:${location.port}/validate`
+  } else 
+  this.reserve.callback_url = `${location.protocol}//${location.hostname}/validate`
   },
 
   computed: {
@@ -345,14 +351,24 @@ export default {
     handleReservation() {
       // console.log(this.reserve)
       this.loading = true;
+  //     if (location.hostname === "localhost"){
+  //   console.log(`${location.protocol}//${location.hostname}:${location.port}/${this.route.validate}`);
+  // }
+  //  else if (location.hostname === "")
+  // alert(`${location.protocol}//${location.hostname}:${location.port}/validate`)
+
       if (this.reserve) {
-        userService.makeReservation(this.reserve).then(
-          () => {
-            location.reload()
+        userService.makeReservation(this.reserve)
+        .then(
+          (response) => {
+            // if(response)
+            console.log(response.data.data)
+            console.log(response.data.data)
+            location.replace(response.data.data)
           },
           (error) => {
             this.loading = false;
-            this.message = error.response.data.message;
+            this.message = error.response.data.message.toString();
             window.stop()
           }
         );

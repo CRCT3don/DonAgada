@@ -8,7 +8,7 @@
         <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="collapsibleNavId">
-        <ul class="navbar-nav ms-auto mt-2 bg-dark bg-opacity-25 px-4 mx-3 mt-lg-0">
+        <ul class="navbar-nav me-auto ms-auto mt-2 bg-dark bg-opacity-25 px-4 mx-3 mt-lg-0">
           <li class="nav-item active">
             <router-link class="nav-link gray-4" to="/">Home <span class="visually-hidden">(current)</span></router-link>
           </li>
