@@ -158,7 +158,7 @@ export default {
       console.log(error)
     })
       
-    }
+    } else this.router.replace('/printinvoice')
   }
 };
 </script>
