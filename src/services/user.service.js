@@ -25,16 +25,22 @@ class UserService {
     //  return response.data
     }
 
-    validatePayment(payload){
-        return axiosInstance.post('/api/reservation', {
+    reservationHIstory(payload){
+        return axiosInstance.post('/api/reservation-history', {
         name: payload.name,    
-        event_id: payload.event_id,
-        phone: payload.phone,
-        email: payload.email,
-        ticket_type: payload.ticket_type,
-        number_of_reservation : payload.number_of_reservation,
-        calback_url: payload.callback_url
       })
+      // .then(() => {
+      //   router.replace('/printinvoice')
+      // }) 
+      // .catch(error => console.log(error))
+    //  return response.data
+    }
+
+    validatePayment(payload){
+        return axiosInstance.post('/api/validate-payment', {
+          reference: payload.reference,   
+      },
+      console.log(payload))
       // .then(() => {
       //   router.replace('/printinvoice')
       // }) 

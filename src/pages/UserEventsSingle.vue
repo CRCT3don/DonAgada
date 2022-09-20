@@ -157,6 +157,19 @@
                   <div class="mt-2">
                     <small class="fw-light text-muted">
                       <i class="fa-solid fa-ticket"></i>
+                      Tickets Sold
+                    </small>
+                    <p
+                      class="card-text text-black font-14 fw-bolder"
+                      v-html="
+                        eventGetter.total_reservation
+                      "
+                    ></p>
+                  </div>
+
+                  <div class="mt-2">
+                    <small class="fw-light text-muted">
+                      <i class="fa-solid fa-ticket"></i>
                       Amount
                     </small>
                     <div v-if="(eventGetter.type = 'paid')">
@@ -210,7 +223,7 @@ export default {
   created() {
     userService.getAllEventsUser().then((response) => {
       this.singleEvent = response.data.data.events;
-      // console.log(this.singleEvent);
+      console.log(this.singleEvent);
     });
   },
 
@@ -242,26 +255,6 @@ export default {
             console.log(error);
             window.stop();
           });
-      // }
-      // this.singleEvent.find(event => event.id === this.$route.params.id) ;
-
-      // let deleteId = this.eventDetails.find(event => event.id === this.$route.params.id)
-      // console.log(deleteId)
-      // let deleteId = this.eventDetails.filter(item => {
-      //   console.log(item)
-      //   return item.id
-      // })
-      //       let deleteId = this.eventDetails.find((event) => {return event.forEach((e) => {
-      //   e.onclick = (e) => console.log(e.id);
-      // })})
-      // userService.deleteEvent(this.eventGetter.id)
-      // .then((response) => {
-      //     this.deleteMessage = response.message;
-      //   },
-      //   (error) => {
-      //     this.deleteMessage = error.data;
-      //   }
-      // );
     },
   },
 };
