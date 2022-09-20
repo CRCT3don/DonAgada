@@ -41,11 +41,14 @@ class UserService {
           reference: payload.reference,   
       },
       console.log(payload))
-      // .then(() => {
-      //   router.replace('/printinvoice')
-      // }) 
-      // .catch(error => console.log(error))
-    //  return response.data
+    }
+
+    reservationHistory(payload){
+        return axiosInstance.post('/api/reservation-history', {
+          email: payload.email ,
+          phone: payload.phone  
+      },
+      console.log(payload))
     }
     
     getMyEvents(){
@@ -113,6 +116,18 @@ class UserService {
       
       async deleteMyEvents(payload){
         await axiosInstance.post('/api/event/delete', 
+        // {headers: authHeader()},
+        {
+          event_id: payload.event_id,
+          event_name: payload.event_name
+        },
+        // console.log(payload)
+        )
+        return await router.replace('/userpost')
+    }
+      
+      async viewBookings(payload){
+        await axiosInstance.post('/api/event/view-bookings', 
         // {headers: authHeader()},
         {
           event_id: payload.event_id,

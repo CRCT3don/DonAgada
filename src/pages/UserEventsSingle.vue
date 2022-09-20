@@ -64,15 +64,15 @@
                     aria-labelledby="staticBackdropLiveLabel"
                     aria-hidden="true"
                   >
-                    <div class="modal-dialog">
+                    <div class="modal-dialog modal-dialog-centered">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5
-                            class="modal-title theme fw-bolder"
+                          <h6
+                            class="modal-title accent fw-bolder"
                             id="staticBackdropLiveLabel"
                           >
                             Are you sure you want to delete?
-                          </h5>
+                          </h6>
                           <button
                             type="button"
                             class="btn-close"
@@ -81,7 +81,7 @@
                           ></button>
                         </div>
                         <div class="modal-body">
-                          <p class="fw-bolder fs-5 fst-italic accent">
+                          <p class=" fst-italic">
                             Action cannot be undone!
                           </p>
                         </div>
@@ -165,6 +165,64 @@
                         eventGetter.total_reservation
                       "
                     ></p>
+                    
+                  <div class=" mb-3">
+                    <div class="bg-theme del text-white badge">
+                      <button
+                        type="button"
+                        data-bs-toggle="modal"
+                        data-bs-target="#viewBooking"
+                        class="font-10 btn-sm btn text-decoration-none shadow-none text-white"
+                      >
+                        View Bookings
+                      </button>
+                    </div>
+                  </div>
+                  <!-- MODAL CONTENT -->
+
+                  <div
+                    class="modal fade"
+                    id="viewBooking"
+                    data-bs-keyboard="true"
+                    tabdindex="-1"
+                    aria-labelledby="staticBackdropLiveLabel"
+                    aria-hidden="true"
+                  >
+                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h6
+                            class="modal-title theme fw-bolder"
+                            id="staticBackdropLiveLabel"
+                          >
+                            I'm not there
+                          </h6>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div class="modal-body">
+                          <p class="fst-italic">
+                            Content Here
+                          </p>
+                        </div>
+                        <div class="modal-footer">
+                          <button
+                            type="button"
+                            class="btn btn-sm btn-outline-secondary shadow-none"
+                            data-bs-dismiss="modal"
+                          >
+                            Close
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- MODAL END -->
                   </div>
 
                   <div class="mt-2">
@@ -225,6 +283,8 @@ export default {
       this.singleEvent = response.data.data.events;
       console.log(this.singleEvent);
     });
+
+
   },
 
   computed: {
@@ -239,6 +299,15 @@ export default {
     this.deleteData.event_id = this.eventGetter.event_uid;
     this.deleteData.event_name = this.eventGetter.event_name;
     this.spinner = false
+
+    
+    userService.viewBookings(this.deleteData)
+    .then((response) =>{
+      console.log(response)
+    },
+    (error) => {
+            console.log(error);
+          })
   },
 
   methods: {

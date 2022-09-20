@@ -10,6 +10,7 @@ import CreateTicket from '../pages/CreateTicket.vue'
 import MakeReservation from '../pages/MakeReservation.vue'
 import Validate from '../pages/Validate.vue'
 import PrintInvoice from '../pages/PrintInvoice.vue'
+import PrintInvoiceSingle from '../pages/PrintInvoiceSingle.vue'
 import Test from '../pages/Test.vue'
 import UpdateEvent from '../del/UpdateEvent.vue'
 
@@ -102,6 +103,12 @@ const routes = [
     path: '/printinvoice',
     name: 'printinvoice',
     component: PrintInvoice,
+    meta: {auth: false}
+  },
+  { 
+    path: '/printinvoice/:id',
+    name: 'printinvoicesingle',
+    component: PrintInvoiceSingle,
     meta: {auth: false}
   },
   {

@@ -2,149 +2,170 @@
   <div>
     <Header />
     <div class="mt-5">
-      <section class="bg-white pt-5 my-5">
+      <section class="bg-white pt-5 px-3 my-5">
+        <div v-if="message" class=" col-md-4 m-auto">
+          <div class="alert alert-danger" role="alert">
+            <span class=""> {{ message }} </span>
+          </div>
+        </div>
         <div class="m-auto">
           <p class="h5 theme fw-bolder text-center">Get your invoice</p>
           <p class="text-muted font-18 fw-bolder fst-italic text-center">
-            Enter your tickect ID below
+            Enter your name or email below
           </p>
           <div class="m-auto col-md-6">
             <div class="row align-items-center">
               <div class="m-auto col-md-7 mt-3">
-                <input type="text" class="input-theme" />
-              </div>
-              <div class="m-auto col-md-5">
-                <router-link to="/" class="button-theme-2"
-                  >Get Reservation Info
-                </router-link>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="col-md-8 m-auto mb-5 border-bottom-dash pb-5">
-        <div class="border-0">
-          <div class="card-header overlay p-2 shadow">
-            <img
-              src="../assets/img/logoIcon/eventXLogo.png"
-              alt="logo"
-              class="img-fluid logo-scoped"
-            />
-          </div>
-          <div class="card-body">
-            <div class="bg-dark bg-opacity-10 pt-5 mb- pb-3 px-5">
-              <p class="h5 gray-3 fw-bolder">Invoice</p>
-              <div class="col-md-10 m-auto mt-3">
-                <div class="row">
-                  <div class="col-md-4">
-                    <p class="fw-normal gray-3 ms-auto">
-                      John Doe
-                      <span class="d-block"> XYZ street, Example Address </span>
-                    </p>
-                  </div>
-                  <div class="col-md-4 ms-auto">
-                    <p class="fw-normal gray-3 text-right">
-                      Ticket ID: #eventX-19002
-                      <span class="d-block"> Order Date: 09/18/2022</span>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <table
-              class="table table-hover table-responsive m-auto text-center"
-            >
-              <thead class="thead-inverse">
-                <tr class="bg-secondary text-white-50">
-                  <th>#</th>
-                  <th width="40%">Event name</th>
-                  <th>Type</th>
-                  <th>Qty</th>
-                  <th>Unit Price</th>
-                  <th>Total</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td scope="row">1</td>
-                  <td>Event Name</td>
-                  <td>Paid</td>
-                  <td>2</td>
-                  <td>10,000</td>
-                  <td>20,000</td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="col-md-4 ms-auto mb-5">
-              <p class="h5 text-black my-4 fw-bolder">
-                Invoice Total: N20,000.00
-                <small class="text-muted font-14 fw-normal text-right d-block"
-                  >Paid via PayStack</small
-                >
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-      <div class="row">
-        <section class="col-md-6 m-auto">
-          <div class="card border-0 shadow">
-            <div class="row g-0">
-              <div class="col-md-4">
-                <img
-                  src="../assets/img/card/burna.png"
-                  class="img-fluid card-img"
-                  alt="..."
+                <input
+                  type="tel"
+                  class="input-theme d-block mb-3"
+                  placeholder="enter your phone here "
+                  v-model="phone"
+                />
+                <p class="theme h5 fw-bolder text-center">OR</p>
+                <input
+                  type="email"
+                  class="input-theme"
+                  placeholder="enter your email here "
+                  v-model="email"
                 />
               </div>
-              <div class="col-md-8 gap-0">
-                <div class="card-body">
-                  <div class="d-flex justify-content-between">
-                    <div class="col-md-5">
-                      <small class="fw-bolder h5 theme"
-                        >Event Date - Event Time</small
-                      >
-                      <p><small class="fw-light text-muted">Duration</small></p>
-
-                      <p>
-                        <small class="fw-light text-muted">2x Ticket(s)</small>
-                      </p>
-                      <p><small class="fw-light text-muted">N20,0000</small></p>
-
-                      <p class="card-text text-black font-16 fw-bolder">
-                        Amount
-                      </p>
-                    </div>
-                  </div>
-                </div>
+              <div
+                class="col-md-12 m-auto d-flex justify-content-center px-3 text-center"
+              >
+                <button
+                  class="button-theme-2"
+                  @click.prevent="getReservationHistory()"
+                  type="button"
+                >
+                  <span
+                    v-if="loading"
+                    class="spinner-border spinner-border-sm"
+                  ></span>
+                  <span> Get Reservation Info </span>
+                </button>
               </div>
             </div>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
+
+      <!-- <section v-show="showReservation"> -->
+      <section>
+        <div class="col-md-6 m-auto px-3">
+          <table class="table table-striped table-hover">
+            <thead>
+              <tr>
+                <th scope="col">Receipt No</th>
+                <th scope="col">Ticket Type </th>
+                <th scope="col">No of Tickets</th>
+                <th scope="col">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="items in reservations" :key="items">
+                <th scope="row">{{items.receipt_number}}</th>
+                <td> {{items.ticket_type}} </td>
+                <td>{{items.number_of_reservation}}</td>
+                <td> <router-link :to="`/printinvoice/${items.id}`" @click="save" class="button-theme-2 text-decoration-none"> View </router-link> </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
-    <!-- <Footer /> -->
+    <Footer />
   </div>
 </template>
 
 <script>
-// import axios from 'axios';
-// import axiosInstance from '@/services/axiosInstance';
+import axiosInstance from "@/services/axiosInstance";
 import Header from "../components/Header.vue";
-// import Footer from "@/components/Footer.vue";
+// import userService from "@/services/user.service";
+import Footer from "@/components/Footer.vue";
 
 export default {
   name: "PrintInvoice-vue",
 
   components: {
     Header,
-    // Footer,
+    Footer,
   },
 
   data() {
-    return {};
+    return {
+      // info: {
+      email: "",
+      phone: "",
+      // },
+      loading: "",
+      showReservation: false,
+      reservations: [],
+      message: "",
+    };
   },
+
+  methods: {
+    getReservationHistory() {
+      console.log(this.phone + this.email);
+
+      let phone = this.phone;
+      let email = this.email;
+
+      if (email === "") email = undefined;
+      if (phone === "") phone = undefined;
+
+      console.log(phone + email);
+
+      // if (this.info.email || this.info.phone) {
+      this.loading = true;
+      //   userService.reservationHistory(this.info).then(
+      //     (response) => {
+      //       console.log(response);
+      //       this.spinner = false;
+      //       this.showReservation = true;
+      //     },
+      //     (error) => {
+      //       console.log(error);
+      //       this.message = error.response.data.message.toString();
+      //       this.spinner = false;
+      //     }
+      //   );
+      // } else this.spinner = true;
+
+      const options = {
+        method: "POST",
+        url: "/api/reservation-history",
+        headers: { 
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+       },
+        data: {
+          email: email,
+          phone: phone,
+        },
+      };
+
+      axiosInstance
+        .request(options)
+        .then((response) => {
+          this.reservations = response.data.data;
+          console.log(this.reservations);
+          this.loading = false;
+          this.showReservation = true;
+        })
+        .catch((error) => {
+          console.log(error);
+          this.message = error.response.data.message.toString();
+          this.loading = false;
+        });
+    },
+
+    save() {
+      localStorage.setItem('details', JSON.stringify(this.reservations))
+        }
+  },
+
 };
 </script>
 

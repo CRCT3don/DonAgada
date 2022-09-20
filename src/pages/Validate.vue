@@ -94,41 +94,21 @@
           </div>
         </div>
       </section>
-      <div class="row">
-        <section class="col-md-6 m-auto">
-          <div class="card border-0 shadow">
-            <div class="row g-0">
-              <div class="col-md-4">
-                <img
-                  src="../assets/img/empty.jpg"
-                  class="img-fluid card-im"
-                  alt="..."
-                />
-              </div>
-              <div class="card-body">
-              <div class="col-md-4 gap-0">
-                  <div class="">
-                    <div class="">
-                      <small class="fw-bolder h5 theme"
-                        > <span class="">  {{ticketDetails.event.event_name}} </span>- {{ticketDetails.event.event_date}} </small
-                      >
-                      <p><small class="fw-light text-muted d-block">Location</small> {{ticketDetails.event.location}} </p>
-
-                      <p>
-                        <small class="fw-light text-muted">{{ticketDetails.number_of_reservation}}x Ticket(s)</small>
-                      </p>
-                      <p><small class="fw-light text-muted">N{{ticketDetails.payment.amount}}</small></p>
-
-                      <!-- <p class="card-text text-black font-16 fw-bolder">
-                        Amount
-                      </p> -->
-                    </div>
-                  </div>
-                </div>
-              </div>
+      <div class="card mb-3 m-auto shadow" style="max-width: 540px;">
+        <div class="row g-0">
+          <div class="col-md-4">
+            <img src="../assets/img/empty.jpg" class="img-fluid rounded-start h-100 card-image" alt="...">
+          </div>
+          <div class="col-md-8">
+            <div class="card-body">
+              <h5 class="card-title theme  fw-bolder">{{ticketDetails.event.event_name}} - {{ticketDetails.event.event_date}} </h5>
+                  <p> 
+                    <span class="mb-2 d-block"> <small class="fw-light fst-italic text-muted d-block mb-2">{{ticketDetails.event.description}}</small> {{ticketDetails.event.location}} </span>
+                  <span class="fw-light text-muted">{{ticketDetails.number_of_reservation}}x Ticket(s) </span>
+                      <span class="fw-bolder ms-5">N{{ticketDetails.payment.amount}} </span></p>
             </div>
           </div>
-        </section>
+        </div>
       </div>
     </div>
     <Footer />
@@ -235,5 +215,10 @@ export default {
 
 .border-bottom-dash {
   border-bottom: 2px dashed #6e736e;
+}
+
+.card-image{
+  object-position: center;
+  object-fit: cover;
 }
 </style>
