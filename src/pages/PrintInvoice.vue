@@ -50,8 +50,8 @@
         </div>
       </section>
 
-      <!-- <section v-show="showReservation"> -->
-      <section>
+      <section v-show="showReservation">
+      <!-- <section> -->
         <div class="col-md-6 m-auto px-3">
           <table class="table table-striped table-hover">
             <thead>
@@ -67,7 +67,8 @@
                 <th scope="row">{{items.receipt_number}}</th>
                 <td> {{items.ticket_type}} </td>
                 <td>{{items.number_of_reservation}}</td>
-                <td> <router-link :to="`/printinvoice/${items.id}`" @click="save" class="button-theme-2 text-decoration-none"> View </router-link> </td>
+                <td> <router-link :to="`/printinvoice/${items.receipt_number}`" @click="save(items.receipt_number)" class="button-theme-2 text-decoration-none"> View </router-link> </td>
+                <!-- <td> <button @click.prevent="save(items.receipt_number)" class="button-theme-2 text-decoration-none"> View </button> </td> -->
               </tr>
             </tbody>
           </table>
@@ -149,7 +150,7 @@ export default {
       axiosInstance
         .request(options)
         .then((response) => {
-          this.reservations = response.data.data;
+          this.reservations = response.data.data[0].data;
           console.log(this.reservations);
           this.loading = false;
           this.showReservation = true;
@@ -159,10 +160,18 @@ export default {
           this.message = error.response.data.message.toString();
           this.loading = false;
         });
-    },
+    }, 
 
-    save() {
-      localStorage.setItem('details', JSON.stringify(this.reservations))
+    save(receipt_number) {
+      console.log(receipt_number)
+      Object.keys(this.reservations).forEach((key) => {
+        if(this.reservations[key].receipt_number === receipt_number){
+          console.log(this.reservations[key])
+          localStorage.setItem('ticketData', JSON.stringify(this.reservations[key]))
+          // this.reservations[key] = localStorage.setItem('ticketData', JSON.stringify(this.reservations[key]))
+        }
+      })
+      // localStorage.setItem('details', JSON.stringify(this.reservations))
         }
   },
 

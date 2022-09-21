@@ -106,7 +106,7 @@ const routes = [
     meta: {auth: false}
   },
   { 
-    path: '/printinvoice/:id',
+    path: '/printinvoice/:receipt_number',
     name: 'printinvoicesingle',
     component: PrintInvoiceSingle,
     meta: {auth: false}

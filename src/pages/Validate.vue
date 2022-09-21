@@ -50,7 +50,7 @@
                       {{ticketDetails.name}}
                     </p>
                   </div>
-                  <div class="col-md-4 ms-auto">
+                  <div class="col-md-6 ms-auto">
                     <p class="fw-normal gray-3 text-right">
                       #eventX-{{ticketDetails.receipt_number}}
                       <span class="d-block"> Order Date: {{ticketDetails.payment.created_at}}</span>
@@ -68,7 +68,7 @@
                   <th width="40%">Event name</th>
                   <th>Type</th>
                   <th>Qty</th>
-                  <!-- <th>Unit Price</th> -->
+                  <th>Unit Price</th>
                   <th>Total</th>
                 </tr>
               </thead>
@@ -78,7 +78,7 @@
                   <td> {{ticketDetails.event.event_name}} </td>
                   <td> {{ticketDetails.event.type }}</td>
                   <td> {{ticketDetails.number_of_reservation}} </td>
-                  <!-- <td v-html="ticketDetails.payment.amount / ticketdetails.number_of_reservation"> </td> -->
+                  <td v-html="ticketDetails.payment.amount / ticketdetails.number_of_reservation"> </td>
                   <td> {{ticketDetails.payment.amount}} </td>
                 </tr>
               </tbody>
