@@ -173,56 +173,13 @@
                         data-bs-toggle="modal"
                         data-bs-target="#viewBooking"
                         class="font-10 btn-sm btn text-decoration-none shadow-none text-white"
+                        @click.prevent="setBookings"
                       >
                         View Bookings
                       </button>
                     </div>
                   </div>
-                  <!-- MODAL CONTENT -->
-
-                  <div
-                    class="modal fade"
-                    id="viewBooking"
-                    data-bs-keyboard="true"
-                    tabdindex="-1"
-                    aria-labelledby="staticBackdropLiveLabel"
-                    aria-hidden="true"
-                  >
-                    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
-                      <div class="modal-content">
-                        <div class="modal-header">
-                          <h6
-                            class="modal-title theme fw-bolder"
-                            id="staticBackdropLiveLabel"
-                          >
-                            I'm not there
-                          </h6>
-                          <button
-                            type="button"
-                            class="btn-close"
-                            data-bs-dismiss="modal"
-                            aria-label="Close"
-                          ></button>
-                        </div>
-                        <div class="modal-body">
-                          <p class="fst-italic">
-                            Content Here
-                          </p>
-                        </div>
-                        <div class="modal-footer">
-                          <button
-                            type="button"
-                            class="btn btn-sm btn-outline-secondary shadow-none"
-                            data-bs-dismiss="modal"
-                          >
-                            Close
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- MODAL END -->
+                  <UserViewBookings />
                   </div>
 
                   <div class="mt-2">
@@ -260,6 +217,7 @@ import userService from "@/services/user.service";
 import Footer from "@/components/Footer.vue";
 import Spinner from "@/components/Spinner.vue";
 import HeaderUser from "@/components/HeaderUser.vue";
+import UserViewBookings from "./UserViewBookings.vue";
 
 export default {
   name: "UserEventsSingle-vue",
@@ -268,46 +226,38 @@ export default {
       singleEvent: [],
       allEvents: "",
       eventDelete: "",
-      spinner: true,
+      // spinner: true,
       deleteData: {
         event_id: "",
         event_name: "",
       },
+      viewBookings: [],
     };
   },
 
-  components: { Footer, HeaderUser, Spinner },
+  components: { Footer, HeaderUser, Spinner, UserViewBookings },
 
   created() {
     userService.getAllEventsUser().then((response) => {
       this.singleEvent = response.data.data.events;
-      console.log(this.singleEvent);
+      // console.log(this.singleEvent);
     });
-
-
+ 
   },
 
   computed: {
     eventGetter() {
       return this.singleEvent.find(
         (event) => event.id === this.$route.params.id
-      );
-    },
+        
+        );
+      },
   },
 
   mounted() {
     this.deleteData.event_id = this.eventGetter.event_uid;
     this.deleteData.event_name = this.eventGetter.event_name;
     this.spinner = false
-
-    
-    userService.viewBookings(this.deleteData)
-    .then((response) =>{
-      console.log(response)
-    },
-    (error) => {
-            console.log(error);
-          })
   },
 
   methods: {
@@ -325,7 +275,7 @@ export default {
             window.stop();
           });
     },
-  },
+  }
 };
 </script>
 

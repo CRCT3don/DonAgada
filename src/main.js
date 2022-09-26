@@ -2,6 +2,7 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import { autoLogout } from './services/auth.service'
 // import VeeValidate from 'vee-validate';
 // import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 // import { BootstrapVue } from 'bootstrap-vue'
@@ -30,5 +31,6 @@ import '../node_modules/aos/dist/aos.js'
 // CUSTOM CSS
 import './assets/css/main.css' 
 
-createApp(App).use(store).use(router).mount('#app')
+
+createApp(App).use(store).use(autoLogout).use(router).mount('#app')
 

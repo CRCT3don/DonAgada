@@ -78,7 +78,8 @@
                   <td> {{ticketDetails.event.event_name}} </td>
                   <td> {{ticketDetails.event.type }}</td>
                   <td> {{ticketDetails.number_of_reservation}} </td>
-                  <td v-html="ticketDetails.payment.amount / ticketdetails.number_of_reservation"> </td>
+                  <td v-html="qty"> </td>
+                  <!-- <td v-html="ticketDetails.payment.amount / ticketdetails.number_of_reservation"> </td> -->
                   <td> {{ticketDetails.payment.amount}} </td>
                 </tr>
               </tbody>
@@ -139,13 +140,14 @@ export default {
       showInvoice: false,
       message: "",
       ticketDetails:[],
+      qty: '',
     };
   },
 
   created() {
     let params = window.location.href.split("reference")[1].split("=").join("");
     this.reference = params;
-    // console.log(this.reference);
+    // console.log(this.ticketDetails);
   },
 
   mounted() {
@@ -182,12 +184,16 @@ export default {
         this.ticketDetails = response.data.data
         this.spinner = false;
         this.showInvoice = true;
+        this.qty = response.data.data.payment.amount / response.data.data.number_of_reservation
       })
       .catch((error) => {
         console.log(error);
         this.message = error.response.data.message.toString();
         this.spinner = false;
       });
+
+      // console.log(this.ticketDetails.payment)
+      // this.qty = this.ticketDetails.payment.amount / this.ticketdetails.number_of_reservation
   },
 };
 </script>
