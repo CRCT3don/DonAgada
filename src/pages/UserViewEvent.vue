@@ -209,9 +209,10 @@ export default {
     this.event.start_time = this.myEvents.start_time
     this.event.maximun_seats = this.myEvents.maximun_seats
     this.event.location = this.myEvents.location
+    
   },
 
-  // watch: {
+  // watch: { 
   //   event_name(oldName, newName){
   //     if(oldName === newName){
   //     this.event.event_name === ''

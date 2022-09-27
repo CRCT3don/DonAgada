@@ -203,7 +203,7 @@ export default {
   background-position: center;
   background-blend-mode: soft-light;
 }
-
+ 
 .overlay {
   background-image: url("../assets/img/bg/LoginBg.png");
   background-size: cover;
