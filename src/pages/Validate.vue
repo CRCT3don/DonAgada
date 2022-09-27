@@ -191,10 +191,7 @@ export default {
         this.message = error.response.data.message.toString();
         this.spinner = false;
       });
-
-      // console.log(this.ticketDetails.payment)
-      // this.qty = this.ticketDetails.payment.amount / this.ticketdetails.number_of_reservation
-  },
+  }
 };
 </script>
 
